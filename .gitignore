@@ -1,0 +1,17 @@
+#IDE
+.idea
+cmake-build-debug/
+
+#Object file
+./obj/*
+
+#binary
+a.out
+serveur
+client
+
+#subject and docs
+*.pdf
+
+library
+/libft/
