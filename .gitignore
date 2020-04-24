@@ -13,5 +13,7 @@ client
 #subject and docs
 *.pdf
 
-library
+#local library
 /libft/
+#serveur given by subject
+/bircd/
