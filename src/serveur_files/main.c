@@ -4,62 +4,49 @@
 
 #include "../../includes/ft_irc.h"
 
-int create_serveur(t_env *env)
+void	init_env(t_env *e, char *progname)
 {
-	int yes;
+	struct rlimit	rlp;
 
-	yes = 1;
-	if ((env->sock = socket(PF_INET, SOCK_STREAM, 0)) == -1)
-		usage(env->args[0], "Could not create socket");
-	if (setsockopt(env->sock, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(int)) == -1)
-		usage(env->args[0], "Could not create option");
-	if (bind(env->sock,(struct sockaddr *)&(env->host_addr),
-			sizeof(struct sockaddr)) == ERROR)
-		usage(env->args[0], "Failed to bind socket");
-	if (listen(env->sock, 5) == ERROR)
-		usage(env->args[0], "Failed to listen on port");
-	printf("[+] Listening on port %s\n", env->args[1]);
-	return (TRUE);
+	ft_bzero(e, sizeof(t_env));
+	getrlimit(RLIMIT_NOFILE, &rlp);
+	e->max_fd = rlp.rlim_cur;
+	e->fds = (t_fd*)malloc(sizeof(t_fd) * e->max_fd);
+	if (e->fds == NULL)
+		usage(progname, "Could not create environnement");
+	ft_bzero(e->fds, sizeof(t_fd) * e->max_fd);
 }
 
-void	create_host_adr(t_env *env)
+void 	create_serveur(t_env *e, int port)
 {
-	unsigned int port;
+	int			s;
+	struct sockaddr_in	sin;
+	struct protoent	*pe;
 
-	if (!(port = ft_atoi(env->args[1])))
-		usage(env->args[0], "Not a proper port");
-	env->host_addr.sin_port = htons(port);
-	env->host_addr.sin_family = AF_INET;
-	env->host_addr.sin_addr.s_addr= INADDR_ANY;
+	if ((pe = (struct protoent*)getprotobyname("tcp")) == NULL)
+		error(e, "Could not get protocol");
+	if ((s = socket(PF_INET, SOCK_STREAM, pe->p_proto)) == ERROR)
+		error(e, "Could not create socket");
+	sin.sin_family = AF_INET;
+	sin.sin_addr.s_addr = INADDR_ANY;
+	sin.sin_port = htons(port);
+	if (bind(s, (struct sockaddr*)&sin, sizeof(sin)) == -1)
+		error(e, "Could not bind");
+	if (listen(s, 42) == -1)
+		error(e, "Could not listen");
+	e->fds[s].type = FD_SERV;
+	e->fds[s].fct_read = serveur_accept;
 }
 
-int main(int ac, char**av)
-{
-	t_env				env;
-	t_client			client;
-	char				buffer[512];
-	ssize_t				length_recv;
-	socklen_t 			sin_size;
 
-	if (ac < 2)
+int main(int ac, char**av) {
+	t_env e;
+	int port;
+
+	if (ac < 2 || (port = ft_atoi(av[1])) == 0)
 		usage(av[0], "<port>");
-	ft_bzero(&env, sizeof(env));
-	ft_bzero(&client, sizeof(client));
-	env.args = av;
-	create_host_adr(&env);
-	create_serveur(&env);
-	while (1)
-	{
-		sin_size = sizeof(struct sockaddr_in);
-		client.sock = accept(env.sock, (struct sockaddr *)&(client.client_addr), &sin_size);
-		length_recv = recv(client.sock, buffer, 512, 0);
-		if (length_recv == 0)
-			usage(env.args[0], "end receiving");
-		else
-		{
-			buffer[length_recv] = '\0';
-			printf("%s\n", buffer);
-		}
-	}
+	init_env(&e, av[0]);
+	create_serveur(&e, port);
+	looping(&e);
 	return (0);
 }
