@@ -1,0 +1,19 @@
+My IRC Rules:
+
+Channells:
+	* Channels names are strings (beginning with a ’&’ or ’#’ character) of length up to 200 characters.
+	* Channels names starts with a '#'
+	* the only restriction on a channel name is that it may not contain any spaces (’ ’), a control G (^G or ASCII 7), or a comma
+	-> Controlled by the client
+
+Nick :
+	* max 9 Chars
+	* link to fd
+
+Command management:
+	* starts with /
+	* /join + #chan_name
+	* /who -> gives the list of users
+	* /connect
+	* /msg <nick> <message> -> send a direct message to <nick>
+

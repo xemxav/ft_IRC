@@ -3,8 +3,9 @@
 //
 
 #include "../../includes/ft_irc.h"
+#include "../../includes/serveur.h"
 
-void	init_env(t_env *e, char *progname)
+static void	init_env(t_env *e, char *progname)
 {
 	struct rlimit	rlp;
 
@@ -15,9 +16,10 @@ void	init_env(t_env *e, char *progname)
 	if (e->fds == NULL)
 		usage(progname, "Could not create environnement");
 	ft_bzero(e->fds, sizeof(t_fd) * e->max_fd);
+	new_channel(e,DEFAULT_CHANNEL);
 }
 
-void 	create_serveur(t_env *e, int port)
+static void 	create_serveur(t_env *e, int port)
 {
 	int			s;
 	struct sockaddr_in	sin;
@@ -38,11 +40,11 @@ void 	create_serveur(t_env *e, int port)
 	e->fds[s].fct_read = serveur_accept;
 }
 
-
 int main(int ac, char**av) {
 	t_env e;
 	int port;
 
+	port = 0;
 	if (ac < 2 || (port = ft_atoi(av[1])) == 0)
 		usage(av[0], "<port>");
 	init_env(&e, av[0]);
