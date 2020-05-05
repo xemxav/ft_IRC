@@ -21,6 +21,8 @@
 # define FD_CLIENT	2
 
 # define CIRC_BUFF_SIZE	4096
+# define MAXLEN 510
+# define MAXLEN_EOL MAXLEN + EOL_SIZE
 # define DEFAULT_CHANNEL "#Public_Chatroom"
 # define ERR_LOG "\033[0;31m[x]\033[0m"
 # define PLUS_LOG "\033[0;32m[+]\033[0m"
@@ -32,13 +34,20 @@ typedef struct			s_circ
 	int 				write_i;
 	int					read_i;
 	int					to_write;
+	int 				data;
 }						t_circ;
 
 
 int						usage(char *prog_name,char *error);
-
-
-int			recv_line(int sock, unsigned char *dest_buffer);
+/*
+**						shared/utils.c
+*/
+int 					max(int a, int b);
+int 					min(int a, int b);
+int						add_EOL(t_circ *circ);
+int						check_EOL(t_circ *circ);
+int						print_buf(t_circ *circ);
 
 
 #endif
+

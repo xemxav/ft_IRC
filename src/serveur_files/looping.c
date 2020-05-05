@@ -5,10 +5,7 @@
 #include "../../includes/ft_irc.h"
 #include "../../includes/serveur.h"
 
-static int		max(int a, int b)
-{
-	return ((a > b) ? a : b);
-}
+
 
 static void	init_fd(t_env *e)
 {

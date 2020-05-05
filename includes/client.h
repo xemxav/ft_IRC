@@ -24,4 +24,9 @@ void					client_error(t_envc *e, char *error);
 **				client_files/create_client.c
 */
 void					create_client(t_envc *e);
+/*
+**				client_files/client_send.c
+*/
+int						client_send(t_envc *e);
+int 					client_record(t_envc *e);
 #endif //FT_IRC_CLIENT_H
