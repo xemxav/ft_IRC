@@ -38,4 +38,11 @@ void	create_client(t_envc *e)
 		client_error(e, "Could not connect to server");
 	printf("%s Connected to server %s on port %d\n",
 			PLUS_LOG, e->args[1], e->port);
+	e->fd.type=FD_SERV;
+	e->fd.channel = NULL;
+	if ((e->fd.circ.buf = (char*)malloc(CIRC_BUFF_SIZE)) == NULL)
+		client_error(e, "Could not create fd buffer");
+	ft_bzero(e->fd.circ.buf, CIRC_BUFF_SIZE);
+	e->fd.fct_read = serveur_recv;
+	e->fd.fct_write = serveur_send;
 }

@@ -5,8 +5,6 @@
 #include "../../includes/ft_irc.h"
 #include "../../includes/serveur.h"
 
-
-
 static void	init_fd(t_env *e)
 {
 	int	i;
@@ -28,7 +26,7 @@ static void	init_fd(t_env *e)
 	}
 }
 
-void	do_select(t_env *e)
+static void	do_select(t_env *e)
 {
 	struct timeval timeout;
 

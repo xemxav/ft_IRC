@@ -2,17 +2,15 @@
 #include "../../includes/ft_irc.h"
 #include "../../includes/serveur.h"
 
-void	clean_fd(t_fd *fd)
+void 					send_first_instruction(e, circ)
 {
-	fd->type = FD_FREE;
-	fd->fct_read = NULL;
-	fd->fct_write = NULL;
+
 }
 
 void					serveur_accept(t_env *e, int s)
 {
-	int					cs;
-	struct sockaddr_in	csin;
+	int						cs;
+	struct sockaddr_in		csin;
 	socklen_t				csin_len;
 
 	csin_len = sizeof(csin);
@@ -28,5 +26,8 @@ void					serveur_accept(t_env *e, int s)
   	if ((e->fds[cs].circ.buf = (char*)malloc(CIRC_BUFF_SIZE)) == NULL)
 		error(e, "Client Buffer Creation");
   	e->fds[cs].channel = e->channels;
+  	copy_to_buf(&e->fds[cs].circ, "Welcome to the serveur");
+  	// ajouter dans le buffer le retout "vonnecter sur serveur, nick et channel
+  	// passe le cs en FD read ?
 }
 

@@ -14,20 +14,9 @@ typedef	struct			s_channel
 	struct s_channel	*next;
 }						t_channel;
 
-typedef struct			s_fd
-{
-	int					type;
-	void				(*fct_read)();
-	void				(*fct_write)();
-	struct s_circ		circ;
-	char				nick[9];
-	struct s_channel	*channel;
-}						t_fd;
-
 typedef struct			s_env
 {
 	char				**args;
-	int					sock;
 	t_fd 				*fds;
 	int					max_fd;
 	int 				max;
@@ -38,6 +27,10 @@ typedef struct			s_env
 }						t_env;
 
 /*
+**						serveur_files/create_serveur.c
+*/
+void 					create_serveur(t_env *e, int port);
+/*
 **				serveur_files/error_mgt.c
 */
 void 					error(t_env *e, char *error);
@@ -46,7 +39,6 @@ void					free_fds(t_env *e);
 **				serveur_files/serveur_accept.c
 */
 void 					serveur_accept(t_env *e, int s);
-void					clean_fd(t_fd *fd);
 /*
 **				serveur_files/channel_mgt.c
 */
@@ -67,5 +59,9 @@ void					client_write(t_env *e, int cs);
 **				serveur_files/looping.c
 */
 void 					looping(t_env *e);
+/*
+**				serveur_files/command_mgt.c
+*/
+void					make_command(t_env *e, int cs);
 
 #endif //FT_IRC_SERVEUR_H
