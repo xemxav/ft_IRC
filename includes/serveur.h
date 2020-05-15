@@ -52,7 +52,7 @@ t_channel				*join_channel(t_env *e, t_channel *cur, char *c_name);
 **				serveur_files/client_read.c
 */
 void					client_read(t_env *e, int cs);
-void					copy_buf(t_circ *dst, t_circ *src);
+void					copy_buf(t_circ *dst, t_circ *src, int cs);
 /*
 **				serveur_files/client_write.c
 */
@@ -65,8 +65,12 @@ void 					looping(t_env *e);
 **				serveur_files/command_mgt.c
 */
 void					make_command(t_env *e, int cs);
-void 					serv_nick(t_env *e, int cs);
 void 					serv_disconnect(t_env *e, int cs);
+void					serv_list(t_env *e, int cs);
+/*
+**				serveur_files/serv_nick_pm.c
+*/
 void					serv_pm(t_env *e, int cs);
+void 					serv_nick(t_env *e, int cs);
 
 #endif //FT_IRC_SERVEUR_H

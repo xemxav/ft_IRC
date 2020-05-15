@@ -2,15 +2,13 @@
 #include "../../includes/ft_irc.h"
 #include "../../includes/serveur.h"
 
-void	copy_buf(t_circ *dst, t_circ *src)
+void	copy_buf(t_circ *dst, t_circ *src, int s)
 {
 	int w;
 	int r;
 
 	w = dst->write_i;
 	r = src->read_i;
-	if (dst->write_i != dst->read_i)
-		printf("%s copy buf : le buffer contient deja des choses lors de la diffusion d'un message\n", ERR_LOG);
 	while (r != src->write_i)
 	{
 		dst->buf[w] = src->buf[r];
@@ -35,7 +33,7 @@ void	diffuse_msg(t_env *e, int cs)
 		e->fds[i].channel == e->fds[cs].channel)
 		{
 			add_cmd(&e->fds[i].circ, e->fds[cs].nick, PREFIX);
-			copy_buf(&e->fds[i].circ, &e->fds[cs].circ);
+			copy_buf(&e->fds[i].circ, &e->fds[cs].circ, i);
 		}
 		i++;
 	}
