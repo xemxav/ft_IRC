@@ -67,6 +67,7 @@ void 					looping(t_env *e);
 void					make_command(t_env *e, int cs);
 void 					serv_disconnect(t_env *e, int cs);
 void					serv_list(t_env *e, int cs);
+void 					serv_join(t_env *e, int cs);
 /*
 **				serveur_files/serv_nick_pm.c
 */

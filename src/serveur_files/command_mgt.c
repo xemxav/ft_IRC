@@ -8,7 +8,7 @@
 const t_cmdl	g_cmd_tab[CMD_COUNT + 1] = {
 		{PM, serv_pm},
 		{CONNECT, serv_disconnect},
-		{JOIN, NULL},
+		{JOIN, serv_join},
 		{NICK, serv_nick},
 		{LIST, serv_list},
 		{NULL, NULL},
@@ -31,6 +31,33 @@ void			serv_list(t_env *e, int cs)
 		i++;
 	}
 	add_EOL(&e->fds[cs].circ);
+}
+
+void 			send_back_error(t_env *e, int cs)
+{
+
+	add_cmd(&e->fds[cs].circ, S_NAME, PREFIX);
+	copy_to_buf(&e->fds[cs].circ, "The channel name must begin with #");
+}
+
+void 			serv_join(t_env *e, int cs)
+{
+	char *channel;
+
+	if ((channel = return_cmd(&e->fds[cs].circ)) == NULL)
+		error(e, "Could not find channe name");
+	clear_circ(&e->fds[cs].circ);
+	if (channel[0] != '#')
+	{
+		free(channel);
+		return (send_back_error(e, cs));
+	}
+	e->fds[cs].channel = join_channel(e, e->fds[cs].channel, channel);
+	add_cmd(&e->fds[cs].circ, S_NAME, PREFIX);
+	add_cmd(&e->fds[cs].circ, "You have joined channel", 0);
+	add_cmd(&e->fds[cs].circ, channel, 0);
+	add_EOL(&e->fds[cs].circ);
+	free(channel);
 }
 
 void			serv_disconnect(t_env *e, int cs)
