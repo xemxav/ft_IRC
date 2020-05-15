@@ -25,7 +25,7 @@ void 		delete_channel(t_env *e, t_channel *channel)
 t_channel 			*leave_channel(t_env *e, t_channel *current)
 {
 	current->p--;
-	if (current != e->channels)
+	if (current != e->channels && current->p == 0)
 		delete_channel(e, current);
 	return (e->channels);
 }

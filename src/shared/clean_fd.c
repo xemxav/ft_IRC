@@ -10,4 +10,5 @@ void	clean_fd(t_fd *fd)
 	fd->fct_read = NULL;
 	fd->fct_write = NULL;
 	fd->channel = NULL;
+	clear_circ(&fd->circ);
 }

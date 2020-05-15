@@ -5,6 +5,7 @@
 #include "../../includes/ft_irc.h"
 #include "../../includes/serveur.h"
 
+
 static void	init_envs(t_env *e, char *progname)
 {
 	struct rlimit	rlp;

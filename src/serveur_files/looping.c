@@ -64,19 +64,3 @@ void looping(t_env *e)
 
 }
 
-//ajouter la creation du buffer dans serveur accept
-//
-//dans clean_fd mettre le free du buffer
-//
-//client read -> n'a rien a envoyé au client, va lire sur le fd
-//suite a lecture, ecrire dans le ou les buffer ce qui doit etre envoyé jusqu'au read,
-//
-//faire le shema du read/write
-//
-//faire la structure "message" qui sera commune aux clients et serveur.
-//
-//gerer les channels
-//	* une liste de chaine qui a pour chacune les fds qui sont dedans
-//	* chaque fd a la chaine qui pointe vers lui ?
-//	* quand un fd s'inscrit a une chaine le nb de p augmente
-

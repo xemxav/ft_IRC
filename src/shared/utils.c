@@ -21,10 +21,8 @@ int 	add_EOL(t_circ *circ)
 	i = 0;
 	while (i < EOL_SIZE)
 	{
-		if (circ->write_i == CIRC_BUFF_SIZE)
-			circ->write_i = 0;
 		circ->buf[circ->write_i] = EOL[i];
-		circ->write_i++;
+		inci(&circ->write_i);
 		i++;
 	}
 	circ->to_write = 1;
@@ -44,7 +42,7 @@ int		check_EOL(t_circ *circ)
 	{
 		check = circ->write_i - i;
 		if (check < 0)
-			check = CIRC_BUFF_SIZE - check;
+			check = CBS - check;
 		if (circ->buf[check] == EOL[EOL_SIZE - i])
 			match++;
 		i--;
@@ -52,4 +50,17 @@ int		check_EOL(t_circ *circ)
 	if (match == 2)
 		return (TRUE);
 	return (FALSE);
+}
+
+void	clear_circ(t_circ *circ)
+{
+	circ->data = 0;
+	circ->read_i = circ->write_i;
+	circ->to_write = 0;
+}
+
+int 		inci(int *i)
+{
+	*i = (*i + 1 == CBS) ? 0 : *i + 1;
+	return (*i);
 }

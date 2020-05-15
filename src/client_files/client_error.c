@@ -7,7 +7,7 @@
 
 void	client_error(t_envc *e, char *error)
 {
-	clean_input(e);
+	clean_input();
 	if (e->fd.circ.buf != NULL)
 		free(e->fd.circ.buf );
 	if (e->circ.buf != NULL)
