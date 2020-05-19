@@ -18,9 +18,11 @@ void		clean_input(void)
 	ft_putstr("\033[G");
 }
 
-void		print_prompt(void)
+void		print_prompt(t_envc *e)
 {
-	ft_putstr("\033[0;32m>>>\033[0m ");
+	ft_putstr("\033[0;32m(");
+	ft_putstr(e->channel);
+	ft_putstr(") >>>\033[0m ");
 }
 
 void			client_record(t_envc *e)

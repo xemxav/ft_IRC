@@ -5,67 +5,48 @@
 #include "../../includes/ft_irc.h"
 #include "../../includes/client.h"
 
-static void first_message(t_envc *e)
-{
-	t_circ *circ;
-
-	circ = &(e->circ);
-	add_cmd(circ, NICK, 0);
-	copy_to_buf(circ, e->nick);
-	send_buf(circ, e->sock);
-}
-
-void	save_server_info(t_envc *e)
-{
-	t_circ	*circ;
-	char 	*sock;
-
-	circ = &(e->fd.circ);
-	if ((e->serv_name = return_cmd(circ)) == NULL)
-		client_error(e, "Could not get Server Name");
-	if ((sock = return_cmd(circ)) == NULL)
-		client_error(e, "Could not get sock");
-	if (ft_strncmp(e->nick, "Guest", 5) == 0)
-		ft_strcat(e->nick, sock);
-	e->serv_info = 1;
-	free(sock);
-	clean_input();
-	print_buf(circ);
-	first_message(e);
-}
-
-void		server_info(t_envc *e, char *prefix)
+void		server_message(t_envc *e, char *prefix)
 {
 	t_circ	*circ;
 
 	circ = &(e->fd.circ);
 	clean_input();
-	printf("%s ", PLUS_LOG);
 	print_buf(circ);
 	free(prefix);
 }
 
-void		channel_or_private(t_envc *e, char *nick)
+void		channel_message(t_envc *e, char *channel)
 {
 	t_circ	*circ;
-	char 	*cmd;
+	char 	*nick;
 
 
 	circ = &(e->fd.circ);
 	clean_input();
-	cmd = NULL;
-	if (circ->buf[circ->read_i] == '/')
-	{
-		if ((cmd = return_cmd(circ)) == NULL)
-			client_error(e, "Could not get command (channel_or_private");
-		if (ft_strncmp(cmd, PM, 4) == 0)
-			printf("\033[1m%s (private) ->\033[0m ", nick +1);
-	}
-	else
-		printf("\033[1m%s->\033[0m ", nick + 1);
+	nick = NULL;
+	if ((nick = return_cmd(circ)) == NULL)
+		client_error(e, "Could not get nick (channel message)");
+	printf("\033[1;35m%s %s->\033[0m", channel, nick);
 	print_buf(circ);
+	free(channel);
 	free(nick);
-	free(cmd);
+}
+
+void		private_message(t_envc *e, char *private)
+{
+	t_circ	*circ;
+	char 	*nick;
+
+
+	circ = &(e->fd.circ);
+	clean_input();
+	nick = NULL;
+	if ((nick = return_cmd(circ)) == NULL)
+		client_error(e, "Could not get command nick (private message)");
+	printf("\033[1;36m%s (private) ->\033[0m", nick);
+	print_buf(circ);
+	free(private);
+	free(nick);
 }
 
 void		analyse_transmission(t_envc *e)
@@ -76,21 +57,24 @@ void		analyse_transmission(t_envc *e)
 	circ = &(e->fd.circ);
 	if (!e->serv_info)
 		return(save_server_info(e));
-	if (circ->buf[circ->read_i] == ':')
+	if (circ->buf[circ->read_i] == ':' || circ->buf[circ->read_i] == '#' || circ->buf[circ->read_i] == '/')
 	{
 		if ((prefix = return_cmd(circ)) == NULL)
 			client_error(e, "Coudld not get prefix");
 		if (ft_strncmp(e->serv_name, prefix, ft_strlen(e->serv_name)) == 0)
-			return (server_info(e, prefix));
-		else
-			return (channel_or_private(e, prefix));
+			return (server_message(e, prefix));
+		else if (ft_strcmp("/write", prefix) == 0)
+			return (change_chan_name(e, prefix));
+		else if (ft_strcmp(PRIVATE, prefix) == 0)
+			return (private_message(e, prefix));
+		else if (prefix[0] == '#')
+			return (channel_message(e, prefix));
+		free(prefix);
 	}
-	else
-	{
-		clean_input();
-		printf("%s Received a message without prefix\n", ERR_LOG);
-		print_buf(circ);
-	}
+	clean_input();
+	printf("%s Received a message without prefix\n", ERR_LOG);
+	print_buf(circ);
+
 }
 
 void	serveur_recv(t_envc *e, int sock)

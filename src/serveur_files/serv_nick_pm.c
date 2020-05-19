@@ -14,11 +14,9 @@ static int	check_nick(t_env *e, int cs, char *nick)
 	{
 		if (cs != i && strcmp(e->fds[i].nick, nick) == 0)
 		{
-			clear_circ(&e->fds[i].circ);
-			add_cmd(&e->fds[cs].circ, S_NAME, ':');
-			copy_to_buf(&e->fds[cs].circ,
+			send_back_serv_err(e, cs,
 						"Your nick is already in use, "
-						"please use different one with /nick command");
+						"please use different one with /nick command", NULL);
 			return (FALSE);
 		}
 		i++;
@@ -38,9 +36,7 @@ void		serv_nick(t_env *e, int cs)
 		len = ft_strlen(nick);
 		len = min(len, 9);
 		ft_memcpy(&e->fds[cs].nick, nick, len);
-		clear_circ(&e->fds[cs].circ);
-		add_cmd(&e->fds[cs].circ, S_NAME, ':');
-		copy_to_buf(&e->fds[cs].circ, "Your nick has been change");
+		send_back_serv_conf(e, cs, "Your nick has been changed to", nick);
 		printf("%s sock %d has changed his nick to %s\n", PLUS_LOG, cs, nick);
 	}
 	else
@@ -63,11 +59,7 @@ static int	find_target_nick(t_env *e, int cs)
 			return (i);
 		i++;
 	}
-	clear_circ(&e->fds[cs].circ);
-	add_cmd(&e->fds[cs].circ, S_NAME, PREFIX);
-	add_cmd(&e->fds[cs].circ, "Could not find user", 0);
-	add_cmd(&e->fds[cs].circ, t_nick, 0);
-	add_EOL(&e->fds[cs].circ);
+	send_back_serv_err(e, cs, "Could not find user", t_nick);
 	return (ERROR);
 }
 
@@ -77,8 +69,8 @@ void		serv_pm(t_env *e, int cs)
 
 	if ((nick_i = find_target_nick(e, cs)) == ERROR)
 		return ;
-	add_cmd(&e->fds[nick_i].circ, e->fds[cs].nick, PREFIX);
-	add_cmd(&e->fds[nick_i].circ, PM, 0);
-	copy_buf(&e->fds[nick_i].circ, &e->fds[cs].circ, nick_i);
+	add_cmd(&e->fds[nick_i].circ, PRIVATE, 0);
+	add_cmd(&e->fds[nick_i].circ, e->fds[cs].nick, 0);
+	copy_buf(&e->fds[nick_i].circ, &e->fds[cs].circ);
 	clear_circ(&e->fds[cs].circ);
 }

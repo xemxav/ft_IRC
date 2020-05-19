@@ -41,7 +41,7 @@ void	create_client(t_envc *e)
 	printf("%s Connected to server %s on port %d\n",
 			PLUS_LOG, e->host, e->port);
 	e->fd.type=FD_SERV;
-	e->fd.channel = NULL;
+	e->fd.write_chan = NULL;
 	if ((e->fd.circ.buf = (char*)malloc(CBS)) == NULL)
 		client_error(e, "Could not create fd buffer");
 	ft_bzero(e->fd.circ.buf, CBS);

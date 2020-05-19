@@ -11,13 +11,15 @@ void 	check_cmd(t_envc *e)
 	char 	*port;
 
 	circ = &e->circ;
+	go_next_char(circ);
 	if (cmp_cmd(circ, CONNECT))
 	{
+
 		if (send_buf(circ, e->sock) == ERROR)
 			client_error(e, "Error while send buf");
+		free(return_cmd(circ));
 		close(e->sock);
 		free(e->host);
-		go_next_char(circ);
 		if ((e->host = return_cmd(circ)) == NULL)
 			client_error(e, "Error while getting hostname");
 		if ((port = return_cmd(circ)) == NULL)

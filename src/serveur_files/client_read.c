@@ -2,10 +2,10 @@
 #include "../../includes/ft_irc.h"
 #include "../../includes/serveur.h"
 
-void	copy_buf(t_circ *dst, t_circ *src, int s)
+void			copy_buf(t_circ *dst, t_circ *src)
 {
-	int w;
-	int r;
+	int			w;
+	int			r;
 
 	w = dst->write_i;
 	r = src->read_i;
@@ -20,29 +20,38 @@ void	copy_buf(t_circ *dst, t_circ *src, int s)
 	dst->to_write = TRUE;
 }
 
-void	diffuse_msg(t_env *e, int cs)
+void			diffuse_msg(t_env *e, int cs)
 {
-	int	i;
+	int			i;
+	int 		c;
 
+	if (e->fds[cs].write_chan == NULL)
+		return ;
 	i = 0;
-	if (e->fds[cs].channel == NULL)
-		error(e, "The client is not in a channel");
 	while (i < e->max_fd)
 	{
-		if(e->fds[i].type == FD_CLIENT && i != cs &&
-		e->fds[i].channel == e->fds[cs].channel)
+		if(e->fds[i].type == FD_CLIENT && i != cs)
 		{
-			add_cmd(&e->fds[i].circ, e->fds[cs].nick, PREFIX);
-			copy_buf(&e->fds[i].circ, &e->fds[cs].circ, i);
+			c = 0;
+			while (c < MAX_CHAN)
+			{
+				if (e->fds[i].chan_bag[c] == e->fds[cs].write_chan)
+				{
+					add_cmd(&e->fds[i].circ, e->fds[cs].write_chan->name, 0);
+					add_cmd(&e->fds[i].circ, e->fds[cs].nick, 0);
+					copy_buf(&e->fds[i].circ, &e->fds[cs].circ);
+				}
+				c++;
+			}
 		}
 		i++;
 	}
 	clear_circ(&e->fds[cs].circ);
 }
 
-void 	message_rooting(t_env *e, int cs)
+void			message_rooting(t_env *e, int cs)
 {
-	t_circ *circ;
+	t_circ		*circ;
 
 	circ = &e->fds[cs].circ;
 	go_next_char(circ);
@@ -50,11 +59,11 @@ void 	message_rooting(t_env *e, int cs)
 	{
 		if (circ->buf[circ->read_i] != '/' && cmp_cmd(circ, NICK) == FALSE)
 		{
-			clear_circ(circ);
-			add_cmd(circ, S_NAME, PREFIX);
-			copy_to_buf(circ, "You must chose a nick");
+			send_back_serv_err(e, cs, "You must chose a nick before chatting", NULL);
 			return;
 		}
+		make_command(e, cs);
+		return ;
 	}
 	if (circ->buf[circ->read_i] == '/')
 		make_command(e, cs);

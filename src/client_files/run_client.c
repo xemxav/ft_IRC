@@ -45,7 +45,7 @@ void run_client(t_envc *e)
 	while (TRUE)
 	{
 		clean_input();
-		print_prompt();
+		print_prompt(e);
 		init_fd(e);
 		do_select(e);
 		check_fd(e);

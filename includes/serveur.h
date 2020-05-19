@@ -14,6 +14,7 @@ typedef	struct			s_channel
 	struct s_channel	*next;
 }						t_channel;
 
+
 typedef struct			s_env
 {
 	char				**args;
@@ -47,12 +48,12 @@ t_channel				*new_channel(t_env *e, char *name);
 t_channel				*free_channels(t_channel *head);
 void 					delete_channel(t_env *e, t_channel *channel);
 t_channel 				*leave_channel(t_env *e, t_channel *current);
-t_channel				*join_channel(t_env *e, t_channel *cur, char *c_name);
+t_channel				*join_channel(t_env *e, char *c_name);
 /*
 **				serveur_files/client_read.c
 */
 void					client_read(t_env *e, int cs);
-void					copy_buf(t_circ *dst, t_circ *src, int cs);
+void					copy_buf(t_circ *dst, t_circ *src);
 /*
 **				serveur_files/client_write.c
 */
@@ -66,12 +67,24 @@ void 					looping(t_env *e);
 */
 void					make_command(t_env *e, int cs);
 void 					serv_disconnect(t_env *e, int cs);
+void					serv_who(t_env *e, int cs);
 void					serv_list(t_env *e, int cs);
-void 					serv_join(t_env *e, int cs);
 /*
 **				serveur_files/serv_nick_pm.c
 */
 void					serv_pm(t_env *e, int cs);
 void 					serv_nick(t_env *e, int cs);
+/*
+**						shared/channel_mgt.c
+*/
+void 					serv_join(t_env *e, int cs);
+void 					serv_leave(t_env *e, int cs);
+void 					serv_sel_write(t_env *e, int cs);
 
+/*
+**						shared/serv_responses.c
+*/
+void 			send_back_serv_conf(t_env *e, int cs, char *line, char *option);
+void 			send_back_serv_info(t_env *e, int cs, char *line, char *option);
+void 			send_back_serv_err(t_env *e, int cs, char *line, char *option);
 #endif //FT_IRC_SERVEUR_H

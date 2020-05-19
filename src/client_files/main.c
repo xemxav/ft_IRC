@@ -22,12 +22,12 @@ void host_from_input(t_envc *e)
 	char	*line;
 
 	printf("Enter a hostname or an ip adress\n");
-	print_prompt();
+	print_prompt(e);
 	if (get_next_line(1, &e->host) < 0)
 		client_error(e, "Entering hostname");
 	clean_input();
 	printf("Enter a port number:\n");
-	print_prompt();
+	print_prompt(e);
 	if (get_next_line(1, &line) < 0)
 		client_error(e, "Entering port");
 	if ((e->port = ft_atoi(line)) == 0)

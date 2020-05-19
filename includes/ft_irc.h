@@ -37,16 +37,14 @@
 # define PM "/msg"
 # define CONNECT "/connect"
 # define JOIN "/join"
-# define NICK "/nick"
+# define LEAVE "/leave"
 # define LIST "/list"
-# define CMD_COUNT 5
-enum cmd_index {
-	PM_I,
-	CONN_I,
-	JOIN_I,
-	NICK_I,
-	LIST_I,
-};
+# define WRITE "/write"
+# define NICK "/nick"
+# define WHO "/who"
+# define CMD_COUNT 8
+# define PRIVATE ":private"
+# define MAX_CHAN 5
 
 typedef struct			s_cmdl
 {
@@ -72,7 +70,8 @@ typedef struct			s_fd
 	void				(*fct_write)();
 	struct s_circ		circ;
 	char				nick[9];
-	struct s_channel	*channel;
+	struct s_channel	*write_chan;
+	struct s_channel	*chan_bag[MAX_CHAN];
 }						t_fd;
 
 int						usage(char *prog_name,char *error);

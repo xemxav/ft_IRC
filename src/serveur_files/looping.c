@@ -5,9 +5,9 @@
 #include "../../includes/ft_irc.h"
 #include "../../includes/serveur.h"
 
-static void	init_fd(t_env *e)
+static void			init_fd(t_env *e)
 {
-	int	i;
+	int				i;
 
 	i = 0;
 	e->max = 0;
@@ -18,7 +18,7 @@ static void	init_fd(t_env *e)
 		if (e->fds[i].type != FD_FREE)
 		{
 			FD_SET(i, &e->fd_read);
-			if (e->fds[i].circ.to_write) // si pointeur read est dif du pointeur write ?
+			if (e->fds[i].circ.to_write)
 				FD_SET(i, &e->fd_write);
 			e->max = max(e->max, i);
 		}
@@ -26,19 +26,18 @@ static void	init_fd(t_env *e)
 	}
 }
 
-static void	do_select(t_env *e)
+static void			do_select(t_env *e)
 {
-	struct timeval timeout;
+	struct timeval	timeout;
 
 	timeout.tv_sec = 0;
 	timeout.tv_usec = 20;
 	e->sel_ret = select(e->max + 1, &e->fd_read, &e->fd_write, NULL, &timeout);
-	//ajout except fd pour gerer les erreurs ?
 }
 
-static void	check_fd(t_env *e)
+static void			check_fd(t_env *e)
 {
-	int	i;
+	int				i;
 
 	i = 0;
 	while ((i < e->max_fd) && (e->sel_ret > 0))

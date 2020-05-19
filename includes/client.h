@@ -23,6 +23,7 @@ typedef struct 			s_envc
 	t_circ 				circ;
 	int					serv_info;
 	char 				*serv_name;
+	char				*channel;
 	char				nick[9];
 
 }						t_envc;
@@ -46,14 +47,23 @@ void					create_client(t_envc *e);
 /*
 **				client_files/client_record.c
 */
-void					print_prompt(void);
+void					print_prompt(t_envc *e);
 void					clean_screen(void);
 void					clean_input(void);
 void 					client_record(t_envc *e);
-//int 					client_record(t_envc *e);
-
 
 
 void					serveur_send(t_envc *e, int sock);
+/*
+**				client_files/serveur_recv.c
+*/
 void					serveur_recv(t_envc *e, int sock);
+/*
+**				client_files/save_serveur_info.c
+*/
+void					save_server_info(t_envc *e);
+void					first_message(t_envc *e);
+void					change_chan_name(t_envc *e, char *cmd);
+
+
 #endif //FT_IRC_CLIENT_H

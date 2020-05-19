@@ -2,8 +2,17 @@
 #include "../../includes/ft_irc.h"
 #include "../../includes/serveur.h"
 
+static void					new_chan_bag(t_env *e, int cs)
+{
+	int						i;
 
-void					serveur_accept(t_env *e, int s)
+	i = 1;
+	e->channels->p++;
+	e->fds[cs].write_chan = e->channels;
+	e->fds[cs].chan_bag[0] = e->channels;
+}
+
+void						serveur_accept(t_env *e, int s)
 {
 	int						cs;
 	struct sockaddr_in		csin;
@@ -22,14 +31,14 @@ void					serveur_accept(t_env *e, int s)
   	ft_bzero(&e->fds[cs].circ, sizeof(t_circ));
   	if ((e->fds[cs].circ.buf = (char*)malloc(CBS)) == NULL)
 		error(e, "Client Buffer Creation");
-  	e->fds[cs].channel = e->channels;
+	new_chan_bag(e, cs);
   	add_cmd(&e->fds[cs].circ, S_NAME, PREFIX);
   	if ((sock = ft_itoa(cs)) == NULL)
   		error(e, "Coudl not create client socket");
   	add_cmd(&e->fds[cs].circ, sock, 0);
   	free(sock);
-  	copy_to_buf(&e->fds[cs].circ, "Welcome to the serveur, "
+  	copy_to_buf(&e->fds[cs].circ, "#Public_Chatroom Welcome to the serveur, "
 							 "you are connected on channel #Public_Chatroom");
-//  	send_buf(&e->fds[cs].circ, cs);
+  	send_buf(&e->fds[cs].circ, cs);
 }
 
