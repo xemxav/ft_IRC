@@ -40,6 +40,7 @@ void host_from_input(t_envc *e)
 
 void	run_session(t_envc *e)
 {
+	clean_screen();
 	create_client(e);
 	run_client(e);
 }
@@ -49,10 +50,9 @@ int main(int ac, char**av, char **env)
 
 	t_envc	e;
 
-	clean_screen();
-	init_envc(&e, env);
 	if (ac != 3 && ac != 1)
 		return (usage(av[0], "[<host>] [<port>]"));
+	init_envc(&e, env);
 	if (ac == 3)
 		host_from_av(&e, av);
 	else

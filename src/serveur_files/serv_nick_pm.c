@@ -12,11 +12,11 @@ static int	check_nick(t_env *e, int cs, char *nick)
 	i = 0;
 	while (i < e->max_fd)
 	{
-		if (cs != i && strcmp(e->fds[i].nick, nick) == 0)
+		if (strcmp(e->fds[i].nick, nick) == 0)
 		{
 			send_back_serv_err(e, cs,
 						"Your nick is already in use, "
-						"please use different one with /nick command", NULL);
+						"please use a different one with /nick command", NULL);
 			return (FALSE);
 		}
 		i++;
@@ -31,6 +31,12 @@ void		serv_nick(t_env *e, int cs)
 
 	if ((nick = return_cmd(&e->fds[cs].circ)) == NULL)
 		error(e, "Could not find nick");
+	if (nick[0] == '\0')
+	{
+		free(nick);
+		send_back_serv_info(e, cs, "Please enter a nick, your actual nick is", e->fds[cs].nick);
+		return;
+	}
 	if (check_nick(e, cs, nick))
 	{
 		len = ft_strlen(nick);

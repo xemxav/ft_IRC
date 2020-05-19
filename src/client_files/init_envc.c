@@ -30,6 +30,4 @@ void	init_envc(t_envc *e, char **env)
 		ft_memcpy(e->nick, "Guest", 5);
 		printf("%s Could not find USER env variable\n", MINUS_LOG);
 	}
-
-	clean_fd(&e->fd);
 }

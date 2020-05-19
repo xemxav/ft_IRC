@@ -9,6 +9,7 @@
 
 # define USER "USER="
 # define U_LEN 5
+# define EXIT "/exit"
 
 typedef struct 			s_envc
 {
@@ -24,7 +25,7 @@ typedef struct 			s_envc
 	int					serv_info;
 	char 				*serv_name;
 	char				*channel;
-	char				nick[9];
+	char				nick[NICK_SIZE];
 
 }						t_envc;
 /*
@@ -33,13 +34,15 @@ typedef struct 			s_envc
 void					init_envc(t_envc *e, char **env);
 void					run_session(t_envc *e);
 /*
-**				client_files/client_error.c
+**				client_files/client_exit.c
 */
 void					client_error(t_envc *e, char *error);
+void					clean_exit(t_envc *e);
+void 					clean(t_envc *e);
 /*
 **				client_files/run_client.c
 */
-void					run_client(t_envc *e);
+int						run_client(t_envc *e);
 /*
 **				client_files/create_client.c
 */
@@ -53,7 +56,7 @@ void					clean_input(void);
 void 					client_record(t_envc *e);
 
 
-void					serveur_send(t_envc *e, int sock);
+void						serveur_send(t_envc *e, int sock);
 /*
 **				client_files/serveur_recv.c
 */

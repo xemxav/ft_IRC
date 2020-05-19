@@ -13,6 +13,7 @@ void	clean_fd(t_fd *fd)
 	fd->fct_read = NULL;
 	fd->fct_write = NULL;
 	fd->write_chan = NULL;
+	ft_bzero(fd->nick, NICK_SIZE);
 	while (i < MAX_CHAN)
 	{
 		fd->chan_bag[i] = NULL;

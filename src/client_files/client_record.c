@@ -8,7 +8,7 @@
 
 void		clean_screen(void)
 {
-	printf("\033[2J\033[1;1H");
+	ft_putstr("\033[2J\033[1;1H");
 
 }
 

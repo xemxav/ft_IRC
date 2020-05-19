@@ -24,7 +24,6 @@ static void	do_select(t_envc *e)
 	timeout.tv_sec = 0;
 	timeout.tv_usec = 20;
 	e->sel_ret = select(e->max + 1, &e->fd_read, &e->fd_write, NULL, NULL);
-	//ajout except fd pour gerer les erreurs ?
 }
 
 static void	check_fd(t_envc *e)
@@ -40,7 +39,7 @@ static void	check_fd(t_envc *e)
 	}
 }
 
-void run_client(t_envc *e)
+int run_client(t_envc *e)
 {
 	while (TRUE)
 	{

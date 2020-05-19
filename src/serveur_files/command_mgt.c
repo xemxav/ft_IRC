@@ -62,12 +62,12 @@ void			serv_disconnect(t_env *e, int cs)
 
 	c = 0;
 	printf("%s Client #%d has gone away\n",MINUS_LOG, cs);
-//	while (c < MAX_CHAN)
-//	{
-//		if (e->fds[cs].chan_bag[c] != NULL)
-//			leave_channel(e, e->fds[cs].chan_bag[c]);;
-//		c++;
-//	}
+	while (c < MAX_CHAN)
+	{
+		if (e->fds[cs].chan_bag[c] != NULL)
+			leave_channel(e, e->fds[cs].chan_bag[c]);;
+		c++;
+	}
 	clean_fd(&e->fds[cs]);
 	close(cs);
 }

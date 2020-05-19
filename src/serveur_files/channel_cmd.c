@@ -76,7 +76,7 @@ void 			serv_leave(t_env *e, int cs)
 		}
 		c++;
 	}
-	send_back_serv_err(e, cs, "You cannot leave tis unknown channel", channel);
+	send_back_serv_err(e, cs, "You cannot leave this unknown channel", channel);
 	free(channel);
 }
 

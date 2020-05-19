@@ -117,7 +117,7 @@ int		cmp_cmd(t_circ *circ, char *cmd)
 		i++;
 
 	}
-	if (circ->buf[start] == ' ')
+	if (circ->buf[start] == ' ' || circ->buf[start] == '\r')
 		return (TRUE);
 	return (FALSE);
 }

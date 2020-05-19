@@ -57,7 +57,7 @@ void					copy_buf(t_circ *dst, t_circ *src);
 /*
 **				serveur_files/client_write.c
 */
-void					client_write(t_env *e, int cs);
+void						client_write(t_env *e, int cs);
 /*
 **				serveur_files/looping.c
 */
