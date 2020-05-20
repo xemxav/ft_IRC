@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../../includes/ft_irc.h"
 
 int			max(int a, int b)
@@ -23,7 +22,7 @@ int			min(int a, int b)
 	return ((a < b) ? a : b);
 }
 
-int			add_EOL(t_circ *circ)
+int			add_eol(t_circ *circ)
 {
 	int i;
 
@@ -39,7 +38,7 @@ int			add_EOL(t_circ *circ)
 	return (circ->data);
 }
 
-int			check_EOL(t_circ *circ)
+int			check_eol(t_circ *circ)
 {
 	int		i;
 	int		check;

@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../../includes/ft_irc.h"
 #include "../../includes/client.h"
 
@@ -23,7 +22,6 @@ static void	init_fd(t_envc *e)
 	if (e->circ.to_write)
 		FD_SET(e->sock, &e->fd_write);
 	e->max = max(0, e->sock);
-
 }
 
 static void	do_select(t_envc *e)
@@ -33,7 +31,7 @@ static void	do_select(t_envc *e)
 
 static void	check_fd(t_envc *e)
 {
-	if(e->sel_ret > 0)
+	if (e->sel_ret > 0)
 	{
 		if (FD_ISSET(e->sock, &e->fd_read))
 			e->fd.fct_read(e, e->sock);

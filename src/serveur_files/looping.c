@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../../includes/ft_irc.h"
 #include "../../includes/serveur.h"
 
@@ -59,11 +58,10 @@ static void			check_fd(t_env *e)
 
 void				looping(t_env *e)
 {
-	while(TRUE)
+	while (TRUE)
 	{
 		init_fd(e);
 		do_select(e);
 		check_fd(e);
 	}
 }
-

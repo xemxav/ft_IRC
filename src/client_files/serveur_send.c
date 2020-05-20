@@ -10,27 +10,24 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../../includes/ft_irc.h"
 #include "../../includes/client.h"
 
 void		reconnect(t_envc *e)
 {
-	t_circ	*circ;
 	char	*port;
 
-	circ = &e->circ;
-	free(return_cmd(circ));
-	if ((e->host  = return_cmd(circ)) == NULL)
+	free(return_cmd(&e->circ));
+	if ((e->host = return_cmd(&e->circ)) == NULL)
 		client_error(e, "Error while getting hostname");
-	if ((port = return_cmd(circ)) == NULL)
+	if ((port = return_cmd(&e->circ)) == NULL)
 		client_error(e, "Error while getting port");
 	if ((e->port = ft_atoi(port)) == 0)
 		client_error(e, "Error on port");
 	free(port);
-	clear_circ(circ);
-	copy_to_buf(circ, CONNECT);
-	if (send_buf(circ, e->sock) == ERROR)
+	clear_circ(&e->circ);
+	copy_to_buf(&e->circ, CONNECT);
+	if (send_buf(&e->circ, e->sock) == ERROR)
 		client_error(e, "Error while send buf");
 	close(e->sock);
 	clean_fd(&e->fd);
@@ -66,7 +63,6 @@ void		check_cmd(t_envc *e)
 		return (reconnect(e));
 	if (cmp_cmd(circ, EXIT))
 		exit_cmd(e);
-
 }
 
 void		serveur_send(t_envc *e, int sock)

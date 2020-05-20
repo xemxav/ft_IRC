@@ -16,7 +16,7 @@
 static void				create_address_host(t_envc *e,
 		struct sockaddr_in *target_addr)
 {
-	struct	hostent		*host_info;
+	struct hostent		*host_info;
 	struct in_addr		*address;
 	char				*host;
 

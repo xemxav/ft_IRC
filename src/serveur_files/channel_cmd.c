@@ -10,14 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
-
 #include "../../includes/ft_irc.h"
 #include "../../includes/serveur.h"
 
-int 			find_chan_index(t_env *e, int cs)
+int				find_chan_index(t_env *e, int cs)
 {
-	int 		c;
+	int			c;
 
 	c = 0;
 	while (c < MAX_CHAN)
@@ -45,16 +43,18 @@ char			*check_channel(t_env *e, int cs)
 	return (channel);
 }
 
-void 			serv_join(t_env *e, int cs)
+void			serv_join(t_env *e, int cs)
 {
 	char		*channel;
-	int 		c;
+	int			c;
 
 	if ((c = find_chan_index(e, cs)) > MAX_CHAN - 1)
-		return (send_back_serv_err(e, cs, "You cannot join more than 5 channels,"
-									  " you must '/leave [channel]' one first", NULL));
+	{
+		return (send_back_serv_err(e, cs, "You cannot join more than 5"
+		" channels, you must '/leave [channel]' one first", NULL));
+	}
 	if ((channel = check_channel(e, cs)) == NULL)
-		return;
+		return ;
 	clear_circ(&e->fds[cs].circ);
 	e->fds[cs].chan_bag[c] = join_channel(e, channel);
 	add_cmd(&e->fds[cs].circ, S_NAME, PREFIX);
@@ -66,23 +66,24 @@ void 			serv_join(t_env *e, int cs)
 	free(channel);
 }
 
-void 			serv_leave(t_env *e, int cs)
+void			serv_leave(t_env *e, int cs)
 {
 	char		*channel;
-	int 		c;
+	int			c;
 
 	c = 0;
 	if ((channel = check_channel(e, cs)) == NULL)
-		return;
+		return ;
 	while (c < MAX_CHAN)
 	{
-		if (e->fds[cs].chan_bag[c] != NULL && strcmp(e->fds[cs].chan_bag[c]->name, channel) == 0)
+		if (e->fds[cs].chan_bag[c] != NULL &&
+		strcmp(e->fds[cs].chan_bag[c]->name, channel) == 0)
 		{
 			leave_channel(e, e->fds[cs].chan_bag[c]);
 			e->fds[cs].chan_bag[c] = NULL;
 			send_back_serv_info(e, cs, "You have left the channel", channel);
 			free(channel);
-			return;
+			return ;
 		}
 		c++;
 	}
@@ -90,15 +91,14 @@ void 			serv_leave(t_env *e, int cs)
 	free(channel);
 }
 
-void 			serv_sel_write(t_env *e, int cs)
+void			serv_sel_write(t_env *e, int cs)
 {
-	int 		c;
-	char 		*channel;
-
+	int			c;
+	char		*channel;
 
 	c = 0;
 	if ((channel = check_channel(e, cs)) == NULL)
-		return;
+		return ;
 	while (c < MAX_CHAN)
 	{
 		if (e->fds[cs].chan_bag[c] != NULL &&
@@ -109,7 +109,7 @@ void 			serv_sel_write(t_env *e, int cs)
 			add_cmd(&e->fds[cs].circ, "/write", 0);
 			copy_to_buf(&e->fds[cs].circ, channel);
 			free(channel);
-			return;
+			return ;
 		}
 		c++;
 	}

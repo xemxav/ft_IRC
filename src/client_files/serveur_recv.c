@@ -10,8 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
-
 #include "../../includes/ft_irc.h"
 #include "../../includes/client.h"
 
@@ -28,8 +26,7 @@ void		server_message(t_envc *e, char *prefix)
 void		channel_message(t_envc *e, char *channel)
 {
 	t_circ	*circ;
-	char 	*nick;
-
+	char	*nick;
 
 	circ = &(e->fd.circ);
 	clean_input();
@@ -47,7 +44,6 @@ void		private_message(t_envc *e, char *private)
 	t_circ	*circ;
 	char	*nick;
 
-
 	circ = &(e->fd.circ);
 	clean_input();
 	nick = NULL;
@@ -62,12 +58,13 @@ void		private_message(t_envc *e, char *private)
 void		analyse_transmission(t_envc *e)
 {
 	t_circ	*circ;
-	char 	*prefix;
+	char	*prefix;
 
 	circ = &(e->fd.circ);
 	if (!e->serv_info)
-		return(save_server_info(e));
-	if (circ->buf[circ->read_i] == ':' || circ->buf[circ->read_i] == '#' || circ->buf[circ->read_i] == '/')
+		return (save_server_info(e));
+	if (circ->buf[circ->read_i] == ':' ||
+	circ->buf[circ->read_i] == '#' || circ->buf[circ->read_i] == '/')
 	{
 		if ((prefix = return_cmd(circ)) == NULL)
 			client_error(e, "Coudld not get prefix");
@@ -84,7 +81,6 @@ void		analyse_transmission(t_envc *e)
 	clean_input();
 	printf("%s Received a message without prefix\n", ERR_LOG);
 	print_buf(circ);
-
 }
 
 void		serveur_recv(t_envc *e, int sock)
@@ -104,7 +100,7 @@ void		serveur_recv(t_envc *e, int sock)
 	{
 		circ->write_i += r;
 		circ->data += r;
-		circ->to_write = check_EOL(circ);
+		circ->to_write = check_eol(circ);
 		if (circ->to_write)
 			analyse_transmission(e);
 	}

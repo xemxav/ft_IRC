@@ -10,15 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../../includes/ft_irc.h"
 #include "../../includes/client.h"
-
 
 void		clean_screen(void)
 {
 	ft_putstr("\033[2J\033[1;1H");
-
 }
 
 void		clean_input(void)
@@ -49,14 +46,13 @@ void		client_record(t_envc *e)
 		{
 			if (line)
 				free(line);
-			return;
+			return ;
 		}
 		if (copy_to_buf(circ, line) != ft_strlen(line))
 			client_error(e, "Error while recording user input");
 		if (line)
 			free(line);
-		return;
+		return ;
 	}
 	client_error(e, "Error while recording user input");
 }
-

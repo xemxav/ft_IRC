@@ -10,8 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
-
 #include "../../includes/ft_irc.h"
 
 void		go_next_char(t_circ *circ)
@@ -20,7 +18,7 @@ void		go_next_char(t_circ *circ)
 
 	in_space = 0;
 	if (circ->buf[circ->read_i] != ' ')
-		return;
+		return ;
 	while (circ->read_i != circ->write_i)
 	{
 		if (circ->buf[circ->read_i] == ' ')
@@ -37,7 +35,6 @@ void		go_next_char(t_circ *circ)
 		circ->read_i = circ->write_i;
 		circ->to_write = 0;
 	}
-
 }
 
 void		trim_cmd_copy(t_circ *circ, char *copy, int len)
@@ -54,7 +51,6 @@ void		trim_cmd_copy(t_circ *circ, char *copy, int len)
 	}
 	go_next_char(circ);
 }
-
 
 char		*return_cmd(t_circ *circ)
 {
@@ -108,12 +104,10 @@ int			cmp_cmd(t_circ *circ, char *cmd)
 	i = 0;
 	while (cmd[i])
 	{
-
 		if (circ->buf[start] != cmd[i])
 			return (FALSE);
 		inci(&start);
 		i++;
-
 	}
 	if (circ->buf[start] == ' ' || circ->buf[start] == '\r')
 		return (TRUE);

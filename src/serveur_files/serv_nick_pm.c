@@ -10,8 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
-
 #include "../../includes/ft_irc.h"
 #include "../../includes/serveur.h"
 
@@ -44,8 +42,9 @@ void		serv_nick(t_env *e, int cs)
 	if (nick[0] == '\0')
 	{
 		free(nick);
-		send_back_serv_info(e, cs, "Please enter a nick, your actual nick is", e->fds[cs].nick);
-		return;
+		send_back_serv_info(e, cs,
+		"Please enter a nick, your actual nick is", e->fds[cs].nick);
+		return ;
 	}
 	if (check_nick(e, cs, nick))
 	{
@@ -57,7 +56,7 @@ void		serv_nick(t_env *e, int cs)
 	}
 	else
 		printf("%s sock %d could not change "
-		 "his nick to %s\n", ERR_LOG, cs, nick);
+		"his nick to %s\n", ERR_LOG, cs, nick);
 	free(nick);
 }
 
@@ -71,8 +70,8 @@ static int	find_target_nick(t_env *e, int cs)
 		serveur_error(e, "Error on return cmd to find target nick");
 	while (i < e->max_fd)
 	{
-		if(e->fds[i].type == FD_CLIENT && i != cs &&
-		   ft_strncmp(e->fds[i].nick, t_nick, NICK_SIZE) == 0)
+		if (e->fds[i].type == FD_CLIENT && i != cs &&
+		ft_strncmp(e->fds[i].nick, t_nick, NICK_SIZE) == 0)
 			return (i);
 		i++;
 	}

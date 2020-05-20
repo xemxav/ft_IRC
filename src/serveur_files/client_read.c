@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../../includes/ft_irc.h"
 #include "../../includes/serveur.h"
 
@@ -32,17 +31,17 @@ void			copy_buf(t_circ *dst, t_circ *src)
 	dst->to_write = TRUE;
 }
 
-static void			diffuse_msg(t_env *e, int cs)
+static void		diffuse_msg(t_env *e, int cs)
 {
 	int			i;
-	int 		c;
+	int			c;
 
 	if (e->fds[cs].write_chan == NULL)
 		return ;
 	i = 0;
 	while (i < e->max_fd)
 	{
-		if(e->fds[i].type == FD_CLIENT && i != cs)
+		if (e->fds[i].type == FD_CLIENT && i != cs)
 		{
 			c = 0;
 			while (c < MAX_CHAN)
@@ -61,7 +60,7 @@ static void			diffuse_msg(t_env *e, int cs)
 	clear_circ(&e->fds[cs].circ);
 }
 
-static void			message_rooting(t_env *e, int cs)
+static void		message_rooting(t_env *e, int cs)
 {
 	t_circ		*circ;
 
@@ -71,8 +70,9 @@ static void			message_rooting(t_env *e, int cs)
 	{
 		if (circ->buf[circ->read_i] != '/' && cmp_cmd(circ, NICK) == FALSE)
 		{
-			send_back_serv_err(e, cs, "You must chose a nick before chatting", NULL);
-			return;
+			send_back_serv_err(e, cs,
+					"You must chose a nick before chatting", NULL);
+			return ;
 		}
 		make_command(e, cs);
 		return ;
@@ -90,16 +90,17 @@ void			client_read(t_env *e, int cs)
 
 	circ = &e->fds[cs].circ;
 	r = recv(cs, circ->buf + circ->write_i, CBS - circ->write_i, 0);
-	if (r <= 0) // de <= à < pour eviter que ca se coupe
+	if (r <= 0)
 		serv_disconnect(e, cs);
 	else
 	{
 		circ->write_i += r;
 		circ->data += r;
-		circ->to_write = check_EOL(circ);
+		circ->to_write = check_eol(circ);
 		if (circ->to_write)
 		{
-			printf("%s recu %d octets de socket num %d complet\n", PLUS_LOG, r, cs);
+			printf("%s recu %d octets de socket num %d"
+			" complet\n", PLUS_LOG, r, cs);
 			message_rooting(e, cs);
 		}
 		else if (r > 0)

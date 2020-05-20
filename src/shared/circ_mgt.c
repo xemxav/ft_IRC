@@ -10,15 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
-
 #include "../../includes/ft_irc.h"
 
 int			send_buf(t_circ *circ, int sock)
 {
 	int		to_send;
 	int		ret;
-
 
 	if (circ->read_i == circ->write_i)
 	{
@@ -29,7 +26,7 @@ int			send_buf(t_circ *circ, int sock)
 		to_send = circ->write_i - circ->read_i;
 	else
 		to_send = CBS - circ->read_i;
-	if ((ret = send(sock, circ->buf + circ->read_i, to_send, 0))== ERROR)
+	if ((ret = send(sock, circ->buf + circ->read_i, to_send, 0)) == ERROR)
 		return (ERROR);
 	circ->read_i += ret;
 	if (circ->read_i == CBS)
@@ -49,7 +46,7 @@ int			recv_buf(t_circ *circ, int s)
 		return (0);
 	printf("Recu %d octet\n", r);
 	circ->write_i += r;
-	circ->to_write = check_EOL(circ);
+	circ->to_write = check_eol(circ);
 	if (circ->to_write)
 		return (circ->data);
 	return (recv_buf(circ, s));
@@ -88,7 +85,7 @@ int			copy_to_buf(t_circ *circ, char *line)
 	int		rec;
 
 	if (*line == '\0')
-		return (add_EOL(circ) - EOL_SIZE);
+		return (add_eol(circ) - EOL_SIZE);
 	buf_len = CBS - circ->write_i;
 	len = ft_strlen(line);
 	rec = min(len, buf_len);

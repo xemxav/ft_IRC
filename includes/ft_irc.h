@@ -10,24 +10,20 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
-
 #ifndef FT_IRC_FT_IRC_H
-#define FT_IRC_FT_IRC_H
+# define FT_IRC_FT_IRC_H
+# include "../libft/includes/libft.h"
+# include <stdio.h>
+# include <sys/socket.h>
+# include <netinet/in.h>
+# include <arpa/inet.h>
+# include <sys/select.h>
+# include <sys/time.h>
+# include <netdb.h>
+# include <sys/time.h>
 
-#include "../libft/includes/libft.h"
-#include <stdio.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <sys/select.h>
-#include <sys/time.h>
-#include <netdb.h>
-#include <sys/time.h>
-
-#define EOL "\r\n"
-#define EOL_SIZE 2
-
+# define EOL "\r\n"
+# define EOL_SIZE 2
 # define FD_FREE	0
 # define FD_SERV	1
 # define FD_CLIENT	2
@@ -53,11 +49,11 @@
 
 typedef struct			s_circ
 {
-	char 				*buf;
-	int 				write_i;
+	char				*buf;
+	int					write_i;
 	int					read_i;
 	int					to_write;
-	int 				data;
+	int					data;
 }						t_circ;
 
 typedef struct			s_fd
@@ -71,19 +67,19 @@ typedef struct			s_fd
 	struct s_channel	*chan_bag[MAX_CHAN];
 }						t_fd;
 
-int						usage(char *prog_name,char *error);
+int						usage(char *prog_name, char *error);
 /*
 **						shared/utils.c
 */
-int 					max(int a, int b);
-int 					min(int a, int b);
-int						add_EOL(t_circ *circ);
-int						check_EOL(t_circ *circ);
+int						max(int a, int b);
+int						min(int a, int b);
+int						add_eol(t_circ *circ);
+int						check_eol(t_circ *circ);
 /*
 **						shared/index_mgt.c
 */
 void					clear_circ(t_circ *circ);
-int 					inci(int *i);
+int						inci(int *i);
 int						dont_stop(char *buf, int i);
 /*
 **						shared/circ_mgt.c
@@ -105,4 +101,3 @@ void					add_cmd(t_circ *circ, char *cmd, char prefix);
 char					*return_cmd(t_circ *circ);
 int						cmp_cmd(t_circ *circ, char *cmd);
 #endif
-

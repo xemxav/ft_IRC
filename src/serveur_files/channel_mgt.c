@@ -10,8 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
-
 #include "../../includes/ft_irc.h"
 #include "../../includes/serveur.h"
 
@@ -23,7 +21,8 @@ void			delete_channel(t_env *e, t_channel *channel)
 	while (tmp->next && tmp->next != channel)
 		tmp = tmp->next;
 	if (!tmp->next)
-		fprintf(stderr, "%s Could not delete channel %s\n", ERR_LOG, channel->name);
+		fprintf(stderr, "%s Could not delete channel %s\n",
+				ERR_LOG, channel->name);
 	else
 	{
 		tmp->next = channel->next;
@@ -83,7 +82,7 @@ t_channel		*new_channel(t_env *e, char *name)
 	{
 		new->p = 1;
 		tmp = e->channels;
-		while(tmp->next != NULL)
+		while (tmp->next != NULL)
 			tmp = tmp->next;
 		tmp->next = new;
 	}

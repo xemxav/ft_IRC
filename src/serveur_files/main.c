@@ -10,11 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
-
 #include "../../includes/ft_irc.h"
 #include "../../includes/serveur.h"
-
 
 static void			init_envs(t_env *e, char *progname)
 {
@@ -27,12 +24,10 @@ static void			init_envs(t_env *e, char *progname)
 	if (e->fds == NULL)
 		usage(progname, "Could not create environnement");
 	ft_bzero(e->fds, sizeof(t_fd) * e->max_fd);
-	new_channel(e,DEFAULT_CHANNEL);
+	new_channel(e, DEFAULT_CHANNEL);
 }
 
-
-
-int					main(int ac, char**av)
+int					main(int ac, char **av)
 {
 	t_env			e;
 	int				port;
