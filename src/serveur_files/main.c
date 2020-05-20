@@ -6,7 +6,7 @@
 #include "../../includes/serveur.h"
 
 
-static void	init_envs(t_env *e, char *progname)
+static void			init_envs(t_env *e, char *progname)
 {
 	struct rlimit	rlp;
 
@@ -22,9 +22,10 @@ static void	init_envs(t_env *e, char *progname)
 
 
 
-int main(int ac, char**av) {
-	t_env e;
-	int port;
+int					main(int ac, char**av)
+{
+	t_env			e;
+	int				port;
 
 	port = 0;
 	if (ac < 2 || (port = ft_atoi(av[1])) == 0)

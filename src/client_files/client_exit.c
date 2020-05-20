@@ -5,7 +5,7 @@
 #include "../../includes/ft_irc.h"
 #include "../../includes/client.h"
 
-void 	clean_client(t_envc *e)
+void		clean_client(t_envc *e)
 {
 	close(e->sock);
 	if (e->host)
@@ -20,14 +20,14 @@ void 	clean_client(t_envc *e)
 		free(e->circ.buf);
 }
 
-void	clean_exit(t_envc *e)
+void		clean_exit(t_envc *e)
 {
 	clean_client(e);
 	clean_input();
 	exit(TRUE);
 }
 
-void	client_error(t_envc *e, char *error)
+void		client_error(t_envc *e, char *error)
 {
 	clean_input();
 	clean_client(e);

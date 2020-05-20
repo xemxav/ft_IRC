@@ -17,9 +17,9 @@ const t_cmdl	g_cmd_tab[CMD_COUNT + 1] = {
 		{NULL, NULL},
 };
 
-void 			serv_list(t_env *e, int cs)
+void			serv_list(t_env *e, int cs)
 {
-	t_channel	*tmp;
+	t_channel 	*tmp;
 
 	tmp = e->channels;
 	clear_circ(&e->fds[cs].circ);
@@ -37,10 +37,8 @@ void 			serv_list(t_env *e, int cs)
 void			serv_who(t_env *e, int cs)
 {
 	int			i;
-	int 		c;
 
 	i = 0;
-	c = 0;
 	clear_circ(&e->fds[cs].circ);
 	add_cmd(&e->fds[cs].circ, S_NAME, PREFIX);
 	add_cmd(&e->fds[cs].circ, MINUS_LOG, 0);
@@ -58,7 +56,7 @@ void			serv_who(t_env *e, int cs)
 
 void			serv_disconnect(t_env *e, int cs)
 {
-	int 		c;
+	int			c;
 
 	c = 0;
 	printf("%s Client #%d has gone away\n",MINUS_LOG, cs);
@@ -68,20 +66,22 @@ void			serv_disconnect(t_env *e, int cs)
 			leave_channel(e, e->fds[cs].chan_bag[c]);;
 		c++;
 	}
+	if (e->fds[cs].circ.buf != NULL)
+		free(e->fds[cs].circ.buf);
 	clean_fd(&e->fds[cs]);
 	close(cs);
 }
 
 void			make_command(t_env *e, int cs)
 {
-	char		*cmd;
+	char 		*cmd;
 	t_circ		*circ;
 	int			i;
 
 	circ = &e->fds[cs].circ;
 	i = 0;
 	if ((cmd = return_cmd(circ)) == NULL)
-		error(e, "Could not get command from message");
+		serveur_error(e, "Could not get command from message");
 	while (g_cmd_tab[i].cmd_name)
 	{
 		if (ft_strcmp(g_cmd_tab[i].cmd_name, cmd) == 0)

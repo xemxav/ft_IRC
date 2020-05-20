@@ -5,10 +5,10 @@
 #include "../../includes/ft_irc.h"
 #include "../../includes/client.h"
 
-void			reconnect(t_envc *e)
+void		reconnect(t_envc *e)
 {
-	t_circ		*circ;
-	char		*port;
+	t_circ	*circ;
+	char	*port;
 
 	circ = &e->circ;
 	free(return_cmd(circ));
@@ -35,9 +35,9 @@ void			reconnect(t_envc *e)
 	create_client(e);
 }
 
-void 	exit_cmd(t_envc *e)
+void		exit_cmd(t_envc *e)
 {
-	t_circ *circ;
+	t_circ	*circ;
 
 	circ = &e->circ;
 	clear_circ(circ);
@@ -47,9 +47,9 @@ void 	exit_cmd(t_envc *e)
 	clean_exit(e);
 }
 
-void 	check_cmd(t_envc *e)
+void		check_cmd(t_envc *e)
 {
-	t_circ *circ;
+	t_circ	*circ;
 
 	circ = &e->circ;
 	go_next_char(circ);
@@ -60,9 +60,9 @@ void 	check_cmd(t_envc *e)
 
 }
 
-void	serveur_send(t_envc *e, int sock)
+void		serveur_send(t_envc *e, int sock)
 {
-	t_circ *circ;
+	t_circ	*circ;
 
 	circ = &e->circ;
 	if (circ->buf[circ->read_i] == '/')

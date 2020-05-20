@@ -5,8 +5,7 @@
 #include "../../includes/ft_irc.h"
 #include "../../includes/client.h"
 
-
-void	host_from_av(t_envc *e, char **av)
+void		host_from_av(t_envc *e, char **av)
 {
 	int		port;
 
@@ -17,7 +16,7 @@ void	host_from_av(t_envc *e, char **av)
 
 }
 
-void host_from_input(t_envc *e)
+void		host_from_input(t_envc *e)
 {
 	char	*line;
 
@@ -38,14 +37,14 @@ void host_from_input(t_envc *e)
 	free(line);
 }
 
-void	run_session(t_envc *e)
+void		run_session(t_envc *e)
 {
 	clean_screen();
 	create_client(e);
 	run_client(e);
 }
 
-int main(int ac, char**av, char **env)
+int			main(int ac, char**av, char **env)
 {
 
 	t_envc	e;

@@ -71,27 +71,6 @@ int			print_buf(t_circ *circ)
 	return (print_buf(circ));
 }
 
-void		print_buf_debug(t_circ *circ)
-{
-	t_circ circc;
-
-	printf("\033[0;33m");
-	ft_memcpy(&circc, circ, sizeof(t_circ));
-//	printf("info de debug:\n");
-//	print_circ_info(&circc);
-	print_buf(&circc);
-//	printf("-- fin debug\n");
-	printf("\033[0m");
-}
-
-void		print_circ_info(t_circ *circ)
-{
-	printf("circ est a %p\n", circ);
-	printf("buf est a %p\n", circ->buf);
-	printf("read_i = %d, write_i = %d, data = %d\n", circ->read_i, circ->write_i, circ->data);
-	printf("to write = %d\n", circ->to_write);
-}
-
 int			copy_to_buf(t_circ *circ, char *line)
 {
 	ssize_t	buf_len;

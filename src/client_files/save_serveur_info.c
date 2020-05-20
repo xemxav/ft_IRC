@@ -18,7 +18,7 @@ void		first_message(t_envc *e)
 void		save_server_info(t_envc *e)
 {
 	t_circ	*circ;
-	char	*sock;
+	char 	*sock;
 
 	circ = &(e->fd.circ);
 	if ((e->serv_name = return_cmd(circ)) == NULL)

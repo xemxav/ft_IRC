@@ -4,9 +4,6 @@
 
 static void					new_chan_bag(t_env *e, int cs)
 {
-	int						i;
-
-	i = 1;
 	e->channels->p++;
 	e->fds[cs].write_chan = e->channels;
 	e->fds[cs].chan_bag[0] = e->channels;
@@ -21,7 +18,7 @@ void						serveur_accept(t_env *e, int s)
 
 	csin_len = sizeof(csin);
   	if ((cs = accept(s, (struct sockaddr*)&csin, &csin_len)) == ERROR)
-  		 error(e,"Error on accept");
+  		 serveur_error(e,"Error on accept");
   	printf("%s New client #%d from %s:%d\n", PLUS_LOG, cs,
   			inet_ntoa(csin.sin_addr), ntohs(csin.sin_port));
   	clean_fd(&e->fds[cs]);
@@ -30,11 +27,11 @@ void						serveur_accept(t_env *e, int s)
   	e->fds[cs].fct_write = client_write;
   	ft_bzero(&e->fds[cs].circ, sizeof(t_circ));
   	if ((e->fds[cs].circ.buf = (char*)malloc(CBS)) == NULL)
-		error(e, "Client Buffer Creation");
+		serveur_error(e, "Client Buffer Creation");
 	new_chan_bag(e, cs);
   	add_cmd(&e->fds[cs].circ, S_NAME, PREFIX);
   	if ((sock = ft_itoa(cs)) == NULL)
-  		error(e, "Coudl not create client socket");
+  		serveur_error(e, "Coudl not create client socket");
   	add_cmd(&e->fds[cs].circ, sock, 0);
   	free(sock);
   	copy_to_buf(&e->fds[cs].circ, "#Public_Chatroom Welcome to the serveur, "

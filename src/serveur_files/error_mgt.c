@@ -5,9 +5,9 @@
 #include "../../includes/ft_irc.h"
 #include "../../includes/serveur.h"
 
-void free_fds(t_env *e)
+void		free_fds(t_env *e)
 {
-	int i;
+	int		i;
 
 	i = 0;
 	while (i <= e->max_fd)
@@ -19,12 +19,17 @@ void free_fds(t_env *e)
 	free(e->fds);
 }
 
-void		error(t_env *e, char *error)
+void		clean_server(t_env *e)
 {
 	if (e->fds != NULL)
 		free_fds(e);
 	if (e->channels != NULL)
 		free_channels(e->channels);
+}
+
+void		serveur_error(t_env *e, char *error)
+{
+	clean_server(e);
 	fprintf(stderr, "%s %s\n", ERR_LOG, error);
 	exit(EXIT_FAILURE);
 }

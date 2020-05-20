@@ -25,7 +25,7 @@ char			*check_channel(t_env *e, int cs)
 
 	channel = NULL;
 	if ((channel = return_cmd(&e->fds[cs].circ)) == NULL)
-		error(e, "Could not find channel name");
+		serveur_error(e, "Could not find channel name");
 	if (channel[0] != '#')
 	{
 		free(channel);
@@ -95,10 +95,10 @@ void 			serv_sel_write(t_env *e, int cs)
 		strcmp(e->fds[cs].chan_bag[c]->name, channel) == 0)
 		{
 			e->fds[cs].write_chan = e->fds[cs].chan_bag[c];
-			free(channel);
 			clear_circ(&e->fds[cs].circ);
 			add_cmd(&e->fds[cs].circ, "/write", 0);
 			copy_to_buf(&e->fds[cs].circ, channel);
+			free(channel);
 			return;
 		}
 		c++;

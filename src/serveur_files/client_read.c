@@ -20,7 +20,7 @@ void			copy_buf(t_circ *dst, t_circ *src)
 	dst->to_write = TRUE;
 }
 
-void			diffuse_msg(t_env *e, int cs)
+static void			diffuse_msg(t_env *e, int cs)
 {
 	int			i;
 	int 		c;
@@ -49,7 +49,7 @@ void			diffuse_msg(t_env *e, int cs)
 	clear_circ(&e->fds[cs].circ);
 }
 
-void			message_rooting(t_env *e, int cs)
+static void			message_rooting(t_env *e, int cs)
 {
 	t_circ		*circ;
 
@@ -71,10 +71,10 @@ void			message_rooting(t_env *e, int cs)
 		diffuse_msg(e, cs);
 }
 
-void	client_read(t_env *e, int cs)
+void			client_read(t_env *e, int cs)
 {
-	int	r;
-	t_circ *circ;
+	int			r;
+	t_circ		*circ;
 
 	circ = &e->fds[cs].circ;
 	r = recv(cs, circ->buf + circ->write_i, CBS - circ->write_i, 0);

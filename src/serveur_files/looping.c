@@ -28,11 +28,7 @@ static void			init_fd(t_env *e)
 
 static void			do_select(t_env *e)
 {
-	struct timeval	timeout;
-
-	timeout.tv_sec = 0;
-	timeout.tv_usec = 20;
-	e->sel_ret = select(e->max + 1, &e->fd_read, &e->fd_write, NULL, &timeout);
+	e->sel_ret = select(e->max + 1, &e->fd_read, &e->fd_write, NULL, NULL);
 }
 
 static void			check_fd(t_env *e)
@@ -52,7 +48,7 @@ static void			check_fd(t_env *e)
 	}
 }
 
-void looping(t_env *e)
+void				looping(t_env *e)
 {
 	while(TRUE)
 	{
@@ -60,6 +56,5 @@ void looping(t_env *e)
 		do_select(e);
 		check_fd(e);
 	}
-
 }
 

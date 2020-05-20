@@ -4,21 +4,9 @@
 
 #include "../../includes/ft_irc.h"
 
-int 		dont_stop(char *buf, int i)
-{
-	int next;
-
-	if (buf[i] == ' ' || buf[i] == 0)
-		return (FALSE);
-	next = (i == CBS - 1) ? 0 : i + 1;
-	if (buf[i] == EOL[0] && buf[next] == EOL[1])
-		return (FALSE);
-	return (TRUE);
-}
-
 void		go_next_char(t_circ *circ)
 {
-	int in_space;
+	int		in_space;
 
 	in_space = 0;
 	if (circ->buf[circ->read_i] != ' ')
@@ -58,11 +46,11 @@ void		trim_cmd_copy(t_circ *circ, char *copy, int len)
 }
 
 
-char 		*return_cmd(t_circ *circ)
+char		*return_cmd(t_circ *circ)
 {
 	char	*cmd;
-	size_t 	len;
-	int 	p;
+	size_t	len;
+	int		p;
 
 	len = 0;
 	p = circ->read_i;
@@ -80,7 +68,7 @@ char 		*return_cmd(t_circ *circ)
 
 void		add_cmd(t_circ *circ, char *cmd, char prefix)
 {
-	int i;
+	int		i;
 
 	i = 0;
 	if (prefix)
@@ -101,7 +89,7 @@ void		add_cmd(t_circ *circ, char *cmd, char prefix)
 	circ->data++;
 }
 
-int		cmp_cmd(t_circ *circ, char *cmd)
+int			cmp_cmd(t_circ *circ, char *cmd)
 {
 	int		start;
 	int		i;

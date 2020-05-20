@@ -19,7 +19,7 @@ static int	get_nick(t_envc *e, char **env)
 	return (FALSE);
 }
 
-void	init_envc(t_envc *e, char **env)
+void		init_envc(t_envc *e, char **env)
 {
 	ft_bzero(e, sizeof(t_envc));
 	e->circ.buf = (char*)malloc(sizeof(CBS));

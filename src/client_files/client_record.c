@@ -25,7 +25,7 @@ void		print_prompt(t_envc *e)
 	ft_putstr(") >>>\033[0m ");
 }
 
-void			client_record(t_envc *e)
+void		client_record(t_envc *e)
 {
 	char	*line;
 	t_circ	*circ;

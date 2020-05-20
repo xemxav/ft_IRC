@@ -5,11 +5,12 @@
 #include "../../includes/ft_irc.h"
 #include "../../includes/client.h"
 
-static void	create_address_host(t_envc *e, struct sockaddr_in *target_addr)
+static void				create_address_host(t_envc *e,
+		struct sockaddr_in *target_addr)
 {
-	struct	hostent	*host_info;
-	struct in_addr	*address;
-	char *host;
+	struct	hostent		*host_info;
+	struct in_addr		*address;
+	char				*host;
 
 	host_info = NULL;
 	host = ft_strdup(e->host);
@@ -23,9 +24,9 @@ static void	create_address_host(t_envc *e, struct sockaddr_in *target_addr)
 	target_addr->sin_addr = *((struct in_addr *)host_info->h_addr);
 }
 
-void	create_client(t_envc *e)
+void					create_client(t_envc *e)
 {
-	struct sockaddr_in target_addr;
+	struct sockaddr_in	target_addr;
 
 	if ((e->sock = socket(PF_INET, SOCK_STREAM, 0)) == ERROR)
 		client_error(e, "Could not create sock");

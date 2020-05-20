@@ -7,6 +7,14 @@
 
 #include "ft_irc.h"
 
+typedef struct			s_cmdl
+{
+	char 				*cmd_name;
+	void				(*fct_cmd)();
+}						t_cmdl;
+
+const t_cmdl			g_cmd_tab[CMD_COUNT + 1];
+
 typedef	struct			s_channel
 {
 	char 				*name;
@@ -25,7 +33,6 @@ typedef struct			s_env
 	fd_set				fd_write;
 	fd_set				fd_read;
 	struct s_channel	*channels;
-	t_cmdl				*cmdl;
 }						t_env;
 
 /*
@@ -35,7 +42,7 @@ void 					create_serveur(t_env *e, int port);
 /*
 **				serveur_files/error_mgt.c
 */
-void 					error(t_env *e, char *error);
+void 					serveur_error(t_env *e, char *error);
 void					free_fds(t_env *e);
 /*
 **				serveur_files/serveur_accept.c

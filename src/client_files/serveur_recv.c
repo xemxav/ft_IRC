@@ -35,7 +35,7 @@ void		channel_message(t_envc *e, char *channel)
 void		private_message(t_envc *e, char *private)
 {
 	t_circ	*circ;
-	char 	*nick;
+	char	*nick;
 
 
 	circ = &(e->fd.circ);
@@ -52,7 +52,7 @@ void		private_message(t_envc *e, char *private)
 void		analyse_transmission(t_envc *e)
 {
 	t_circ	*circ;
-	char	*prefix;
+	char 	*prefix;
 
 	circ = &(e->fd.circ);
 	if (!e->serv_info)
@@ -77,10 +77,10 @@ void		analyse_transmission(t_envc *e)
 
 }
 
-void	serveur_recv(t_envc *e, int sock)
+void		serveur_recv(t_envc *e, int sock)
 {
-	int	r;
-	t_circ *circ;
+	int		r;
+	t_circ	*circ;
 
 	circ = &(e->fd.circ);
 	r = recv(sock, circ->buf + circ->write_i, CBS - circ->write_i, 0);

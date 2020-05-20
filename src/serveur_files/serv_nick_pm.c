@@ -7,7 +7,7 @@
 
 static int	check_nick(t_env *e, int cs, char *nick)
 {
-	int 	i;
+	int		i;
 
 	i = 0;
 	while (i < e->max_fd)
@@ -30,7 +30,7 @@ void		serv_nick(t_env *e, int cs)
 	ssize_t	len;
 
 	if ((nick = return_cmd(&e->fds[cs].circ)) == NULL)
-		error(e, "Could not find nick");
+		serveur_error(e, "Could not find nick");
 	if (nick[0] == '\0')
 	{
 		free(nick);
@@ -46,7 +46,8 @@ void		serv_nick(t_env *e, int cs)
 		printf("%s sock %d has changed his nick to %s\n", PLUS_LOG, cs, nick);
 	}
 	else
-		printf("%s sock %d could not change his nick to %s\n", ERR_LOG, cs, nick);
+		printf("%s sock %d could not change "
+		 "his nick to %s\n", ERR_LOG, cs, nick);
 	free(nick);
 }
 
@@ -57,7 +58,7 @@ static int	find_target_nick(t_env *e, int cs)
 
 	i = 0;
 	if ((t_nick = return_cmd(&e->fds[cs].circ)) == NULL)
-		error(e, "Error on return cmd to find target nick");
+		serveur_error(e, "Error on return cmd to find target nick");
 	while (i < e->max_fd)
 	{
 		if(e->fds[i].type == FD_CLIENT && i != cs &&
@@ -66,6 +67,7 @@ static int	find_target_nick(t_env *e, int cs)
 		i++;
 	}
 	send_back_serv_err(e, cs, "Could not find user", t_nick);
+	free(t_nick);
 	return (ERROR);
 }
 

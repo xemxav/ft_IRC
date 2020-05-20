@@ -5,9 +5,9 @@
 #include "../../includes/ft_irc.h"
 #include "../../includes/serveur.h"
 
-void 		delete_channel(t_env *e, t_channel *channel)
+void			delete_channel(t_env *e, t_channel *channel)
 {
-	t_channel 	*tmp;
+	t_channel	*tmp;
 
 	tmp = e->channels;
 	while (tmp->next && tmp->next != channel)
@@ -22,7 +22,7 @@ void 		delete_channel(t_env *e, t_channel *channel)
 	}
 }
 
-t_channel 			*leave_channel(t_env *e, t_channel *current)
+t_channel		*leave_channel(t_env *e, t_channel *current)
 {
 	if (current != NULL)
 	{
@@ -35,7 +35,7 @@ t_channel 			*leave_channel(t_env *e, t_channel *current)
 
 t_channel		*join_channel(t_env *e, char *c_name)
 {
-	t_channel *tmp;
+	t_channel	*tmp;
 
 	tmp = e->channels;
 	while (tmp && ft_strcmp(tmp->name, c_name) != 0)
@@ -60,11 +60,11 @@ t_channel		*free_channels(t_channel *head)
 
 t_channel		*new_channel(t_env *e, char *name)
 {
-	t_channel *new;
-	t_channel *tmp;
+	t_channel	*new;
+	t_channel	*tmp;
 
 	if ((new = (t_channel*)malloc(sizeof(t_channel))) == NULL)
-		error(e, "Channel Creation");
+		serveur_error(e, "Channel Creation");
 	ft_bzero(new, sizeof(t_channel));
 	new->name = ft_strdup(name);
 	if (e->channels == NULL)

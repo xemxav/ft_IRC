@@ -19,10 +19,6 @@ static void	init_fd(t_envc *e)
 
 static void	do_select(t_envc *e)
 {
-	struct timeval timeout;
-
-	timeout.tv_sec = 0;
-	timeout.tv_usec = 20;
 	e->sel_ret = select(e->max + 1, &e->fd_read, &e->fd_write, NULL, NULL);
 }
 
@@ -39,7 +35,7 @@ static void	check_fd(t_envc *e)
 	}
 }
 
-int run_client(t_envc *e)
+int			run_client(t_envc *e)
 {
 	while (TRUE)
 	{
