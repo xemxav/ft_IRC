@@ -12,9 +12,11 @@ PATH_SRC = ./src/
 PATH_INC = ./includes/
 PATH_SERVEUR = serveur_files/
 PATH_CLIENT = client_files/
-PATH_SHARED= shared/
+PATH_SHARED = shared/
 
 HEADER = $(PATH_INC)$(NAME).h
+HEADER_S = $(PATH_INC)$(SERVEUR).h
+HEADER_C = $(PATH_INC)$(CLIENT).h
 
 #******************************************************************************#
 #                              SHARED                                          #
@@ -23,7 +25,12 @@ HEADER = $(PATH_INC)$(NAME).h
 PATH_OBJ_SHARED = $(PATH_OBJ)$(PATH_SHARED)
 PATH_SRC_SHARED = $(PATH_SRC)$(PATH_SHARED)
 
-FILES_SHARED = 
+FILES_SHARED = circ_mgt \
+               clean_fd \
+               index_mgt \
+               parsing_cmd \
+               usage \
+               utils
 
 OBJ_SHARED = $(addprefix $(PATH_OBJ_SHARED), $(addsuffix .o , $(FILES_SHARED)))
 SRC_SHARED = $(addprefix $(PATH_SRC_SHARED), $(addsuffix .c , $(FILES_SHARED)))
@@ -35,19 +42,38 @@ SRC_SHARED = $(addprefix $(PATH_SRC_SHARED), $(addsuffix .c , $(FILES_SHARED)))
 PATH_OBJ_SERVEUR = $(PATH_OBJ)$(PATH_SERVEUR)
 PATH_SRC_SERVEUR = $(PATH_SRC)$(PATH_SERVEUR)
 
-FILES_SERVEUR = 
+FILES_SERVEUR = channel_cmd \
+                channel_mgt \
+                client_read \
+                client_write \
+                command_mgt \
+                create_serveur \
+                error_mgt \
+                looping \
+                main \
+                serv_nick_pm \
+                serv_responses \
+                serveur_accept
 
 OBJ_SERVEUR = $(addprefix $(PATH_OBJ_SERVEUR), $(addsuffix .o , $(FILES_SERVEUR)))
 SRC_SERVEUR = $(addprefix $(PATH_SRC_SERVEUR), $(addsuffix .c , $(FILES_SERVEUR)))
 
 #******************************************************************************#
-#                              FT_CLIENT                                        #
+#                              CLIENT                                        #
 #******************************************************************************#
 
 PATH_OBJ_CLIENT = $(PATH_OBJ)$(PATH_CLIENT)
 PATH_SRC_CLIENT = $(PATH_SRC)$(PATH_CLIENT)
 
-FILES_CLIENT = 
+FILES_CLIENT =  client_exit \
+                client_record \
+                create_client \
+                init_envc \
+                main \
+                run_client \
+                save_serveur_info \
+                serveur_recv \
+                serveur_send \
 
 OBJ_CLIENT = $(addprefix $(PATH_OBJ_CLIENT), $(addsuffix .o , $(FILES_CLIENT)))
 SRC_CLIENT = $(addprefix $(PATH_SRC_CLIENT), $(addsuffix .c , $(FILES_CLIENT)))
