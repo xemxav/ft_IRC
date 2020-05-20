@@ -97,7 +97,7 @@ LIB = $(PATH_LIB)libft.a
 all: lib $(SERVEUR) $(CLIENT)
 
 clean:
-	@printf "\n\033[1mSUPPRESSION DES OBJETS\033[0m\n"
+	@printf "\n\033[1mSUPPRESSION DES OBJETS DE $(NAME)\033[0m\n"
 	@rm -rf $(PATH_OBJ)
 	@make clean -C $(PATH_LIB)
 
