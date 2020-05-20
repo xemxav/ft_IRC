@@ -3,7 +3,7 @@
 cmake-build-debug/
 
 #Object file
-./obj/*
+./obj/*/*
 
 #binary
 a.out
