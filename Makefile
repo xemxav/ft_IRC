@@ -4,7 +4,7 @@ CC = gcc
 CFLAGS = -Wall -Wextra -Werror
 
 NAME = ft_irc
-SERVER = server
+SERVEUR = serveur
 CLIENT = client
 
 PATH_OBJ = ./obj/
@@ -97,15 +97,15 @@ LIB = $(PATH_LIB)libft.a
 all: lib $(SERVEUR) $(CLIENT)
 
 clean:
-	@printf "\n\033[1m SUPPRESSION DES OBJETS\033[0m\n"
+	@printf "\n\033[1mSUPPRESSION DES OBJETS\033[0m\n"
 	@rm -rf $(PATH_OBJ)
 	@make clean -C $(PATH_LIB)
 
 fclean: clean
-	@printf "\n\033[1mSUPPRESSION DE $(NAME)\033[0m\n"
+	@printf "\n\033[1mSUPPRESSION DE $(CLIENT)\033[0m\n"
 	@rm -rf $(CLIENT)
+	@printf "\n\033[1mSUPPRESSION DE $(SERVEUR)\033[0m\n"
 	@rm -rf $(SERVEUR)
-	@rm -rf $(PATH_OBJ)
 	@make fclean -C $(PATH_LIB)
 
 re: fclean all
@@ -117,21 +117,21 @@ re: fclean all
 lib:
 	@make -C $(PATH_LIB)
 
-$(SERVEUR): $(PATH_OBJ) $(PATH_OBJ_SHARED) $(OBJ_SHARED)  $(PATH_OBJ_SERVEUR) $(OBJ_SERVEUR)
+$(SERVEUR): $(PATH_OBJ) $(PATH_OBJ_SHARED) $(OBJ_SHARED) $(PATH_OBJ_SERVEUR) $(OBJ_SERVEUR)
 	@$(CC) $(CFLAGS) $(OBJ_SHARED) $(OBJ_SERVEUR) -I $(PATH_INC) $(INC_LIB) -o $(SERVEUR)
 	@echo "$(SERVEUR) has been compiled"
 
-$(CLIENT): $(PATH_OBJ)  $(PATH_OBJ_SHARED) $(OBJ_SHARED) $(PATH_OBJ_CLIENT)  $(OBJ_CLIENT)
-	@$(CC) $(CFLAGS) $(OBJ_SHARED) $(OBJ_CLIENT)  -I $(PATH_INC) $(INC_LIB) -o $(CLIENT)
+$(CLIENT): $(PATH_OBJ)  $(PATH_OBJ_SHARED) $(OBJ_SHARED) $(PATH_OBJ_CLIENT) $(OBJ_CLIENT)
+	@$(CC) $(CFLAGS) $(OBJ_SHARED) $(OBJ_CLIENT) -I $(PATH_INC) $(INC_LIB) -o $(CLIENT)
 	@echo "$(CLIENT) has been compiled"
 
 $(PATH_OBJ_SHARED)%.o: $(PATH_SRC_SHARED)%.c $(HEADER) $(LIB)
 	@$(CC) $(CFLAGS) -I $(PATH_INC) -I $(PATH_INC_LIB) -c $< -o $@
 
-$(PATH_OBJ_CLIENT)%.o: $(PATH_SRC_CLIENT)%.c $(HEADER) $(LIB)
+$(PATH_OBJ_CLIENT)%.o: $(PATH_SRC_CLIENT)%.c $(HEADER) $(HEADER_C) $(LIB)
 	@$(CC) $(CFLAGS) -I $(PATH_INC) -I $(PATH_INC_LIB) -c $< -o $@
 
-$(PATH_OBJ_SERVEUR)%.o: $(PATH_SRC_SERVEUR)%.c $(HEADER) $(LIB)
+$(PATH_OBJ_SERVEUR)%.o: $(PATH_SRC_SERVEUR)%.c $(HEADER) $(HEADER_S) $(LIB)
 	@$(CC) $(CFLAGS) -I $(PATH_INC) -I $(PATH_INC_LIB) -c $< -o $@
 
 $(PATH_OBJ):

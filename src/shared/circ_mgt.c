@@ -78,7 +78,7 @@ int			print_buf(t_circ *circ)
 	return (print_buf(circ));
 }
 
-int			copy_to_buf(t_circ *circ, char *line)
+size_t		copy_to_buf(t_circ *circ, char *line)
 {
 	ssize_t	buf_len;
 	ssize_t	len;

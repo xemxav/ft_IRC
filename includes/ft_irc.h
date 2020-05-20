@@ -53,7 +53,7 @@ typedef struct			s_circ
 	int					write_i;
 	int					read_i;
 	int					to_write;
-	int					data;
+	size_t				data;
 }						t_circ;
 
 typedef struct			s_fd
@@ -73,7 +73,7 @@ int						usage(char *prog_name, char *error);
 */
 int						max(int a, int b);
 int						min(int a, int b);
-int						add_eol(t_circ *circ);
+size_t					add_eol(t_circ *circ);
 int						check_eol(t_circ *circ);
 /*
 **						shared/index_mgt.c
@@ -87,7 +87,7 @@ int						dont_stop(char *buf, int i);
 int						print_buf(t_circ *circ);
 int						send_buf(t_circ *circ, int sock);
 int						recv_buf(t_circ *circ, int s);
-int						copy_to_buf(t_circ *circ, char *line);
+size_t					copy_to_buf(t_circ *circ, char *line);
 /*
 **						shared/clean_fd.c
 */

@@ -6,6 +6,7 @@ set(CMAKE_C99_STANDARD 17)
 # Rigourous Error management
 set(CMAKE_C_FLAGS "-Wall -Werror -Wall")
 
+add_compile_options(-Wall -Werror -Wall)
 # Including *.c and *.h project files
 FILE(GLOB_RECURSE SHARED_SOURCE
         src/shared/*.c)

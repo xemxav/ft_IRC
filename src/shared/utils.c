@@ -22,7 +22,7 @@ int			min(int a, int b)
 	return ((a < b) ? a : b);
 }
 
-int			add_eol(t_circ *circ)
+size_t		add_eol(t_circ *circ)
 {
 	int i;
 
