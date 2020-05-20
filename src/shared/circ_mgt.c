@@ -25,7 +25,6 @@ int			send_buf(t_circ *circ, int sock)
 	if (circ->read_i == CBS)
 		circ->read_i = 0;
 	circ->data -= ret;
-//	printf(" send buf : ret = %d - read_i = %d - data = %d - write_i = %d\n", ret, circ->read_i, circ->data, circ->write_i);
 	return (send_buf(circ, sock));
 }
 
@@ -46,10 +45,10 @@ int			recv_buf(t_circ *circ, int s)
 	return (recv_buf(circ, s));
 }
 
-int		print_buf(t_circ *circ)
+int			print_buf(t_circ *circ)
 {
-	int	to_print;
-	int printed;
+	int		to_print;
+	int		printed;
 	char	*s;
 
 	if (circ->write_i == circ->read_i)
@@ -93,10 +92,10 @@ void		print_circ_info(t_circ *circ)
 	printf("to write = %d\n", circ->to_write);
 }
 
-int copy_to_buf(t_circ *circ, char *line)
+int			copy_to_buf(t_circ *circ, char *line)
 {
-	ssize_t buf_len;
-	ssize_t len;
+	ssize_t	buf_len;
+	ssize_t	len;
 	int		rec;
 
 	if (*line == '\0')
