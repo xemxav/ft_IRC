@@ -50,12 +50,12 @@ void			serv_who(t_env *e, int cs)
 	clear_circ(&e->fds[cs].circ);
 	add_cmd(&e->fds[cs].circ, S_NAME, PREFIX);
 	add_cmd(&e->fds[cs].circ, MINUS_LOG, 0);
-	add_cmd(&e->fds[cs].circ, "The list of user of channel", 0);
+	add_cmd(&e->fds[cs].circ, "The list of writing user of channel", 0);
 	add_cmd(&e->fds[cs].circ, e->fds[cs].write_chan->name, 0);
 	add_cmd(&e->fds[cs].circ, ":", 0);
 	while (i < e->max_fd)
 	{
-		if (i != cs && e->fds[i].write_chan == e->fds[cs].write_chan)
+		if (e->fds[i].write_chan == e->fds[cs].write_chan)
 			add_cmd(&e->fds[cs].circ, e->fds[i].nick, 0);
 		i++;
 	}

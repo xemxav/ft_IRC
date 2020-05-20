@@ -13,20 +13,6 @@
 #include "../../includes/ft_irc.h"
 #include "../../includes/serveur.h"
 
-int				find_chan_index(t_env *e, int cs)
-{
-	int			c;
-
-	c = 0;
-	while (c < MAX_CHAN)
-	{
-		if (e->fds[cs].chan_bag[c] == NULL)
-			return (c);
-		c++;
-	}
-	return (c);
-}
-
 char			*check_channel(t_env *e, int cs)
 {
 	char		*channel;
@@ -71,23 +57,23 @@ void			serv_leave(t_env *e, int cs)
 	char		*channel;
 	int			c;
 
-	c = 0;
 	if ((channel = check_channel(e, cs)) == NULL)
 		return ;
-	while (c < MAX_CHAN)
+	if ((c = find_channel_by_name(e, cs, channel)) != ERROR)
 	{
-		if (e->fds[cs].chan_bag[c] != NULL &&
-		strcmp(e->fds[cs].chan_bag[c]->name, channel) == 0)
+		if (e->fds[cs].chan_bag[c] == e->fds[cs].write_chan)
+			send_back_serv_info(e, cs,
+		"You cannot leave your /write channel", NULL);
+		else
 		{
 			leave_channel(e, e->fds[cs].chan_bag[c]);
 			e->fds[cs].chan_bag[c] = NULL;
 			send_back_serv_info(e, cs, "You have left the channel", channel);
-			free(channel);
-			return ;
 		}
-		c++;
 	}
-	send_back_serv_err(e, cs, "You cannot leave this unknown channel", channel);
+	else
+		send_back_serv_err(e, cs,
+	"You cannot leave this unknown channel", channel);
 	free(channel);
 }
 
@@ -96,23 +82,16 @@ void			serv_sel_write(t_env *e, int cs)
 	int			c;
 	char		*channel;
 
-	c = 0;
 	if ((channel = check_channel(e, cs)) == NULL)
 		return ;
-	while (c < MAX_CHAN)
+	if ((c = find_channel_by_name(e, cs, channel)) != ERROR)
 	{
-		if (e->fds[cs].chan_bag[c] != NULL &&
-		strcmp(e->fds[cs].chan_bag[c]->name, channel) == 0)
-		{
-			e->fds[cs].write_chan = e->fds[cs].chan_bag[c];
-			clear_circ(&e->fds[cs].circ);
-			add_cmd(&e->fds[cs].circ, "/write", 0);
-			copy_to_buf(&e->fds[cs].circ, channel);
-			free(channel);
-			return ;
-		}
-		c++;
+		e->fds[cs].write_chan = e->fds[cs].chan_bag[c];
+		clear_circ(&e->fds[cs].circ);
+		add_cmd(&e->fds[cs].circ, "/write", 0);
+		copy_to_buf(&e->fds[cs].circ, channel);
 	}
-	send_back_serv_err(e, cs, "You must join the channel first", NULL);
+	else
+		send_back_serv_err(e, cs, "You must join the channel first", NULL);
 	free(channel);
 }

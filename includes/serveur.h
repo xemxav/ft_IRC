@@ -93,6 +93,11 @@ void					serv_join(t_env *e, int cs);
 void					serv_leave(t_env *e, int cs);
 void					serv_sel_write(t_env *e, int cs);
 /*
+**						shared/channel_utils.c
+*/
+int						find_chan_index(t_env *e, int cs);
+int 					find_channel_by_name(t_env *e, int cs, char *channel);
+/*
 **						shared/serv_responses.c
 */
 void					send_back_serv_conf(t_env *e, int cs, char *line,

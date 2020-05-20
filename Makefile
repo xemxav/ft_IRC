@@ -44,6 +44,7 @@ PATH_SRC_SERVEUR = $(PATH_SRC)$(PATH_SERVEUR)
 
 FILES_SERVEUR = channel_cmd \
                 channel_mgt \
+                channel_utils \
                 client_read \
                 client_write \
                 command_mgt \

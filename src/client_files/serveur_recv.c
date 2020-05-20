@@ -78,9 +78,8 @@ void		analyse_transmission(t_envc *e)
 			return (channel_message(e, prefix));
 		free(prefix);
 	}
-	clean_input();
-	printf("%s Received a message without prefix\n", ERR_LOG);
-	print_buf(circ);
+	else
+		clear_circ(circ);
 }
 
 void		serveur_recv(t_envc *e, int sock)
