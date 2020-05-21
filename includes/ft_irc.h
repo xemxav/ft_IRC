@@ -21,6 +21,7 @@
 # include <sys/time.h>
 # include <netdb.h>
 # include <sys/time.h>
+# include <sys/resource.h>
 
 # define EOL "\r\n"
 # define EOL_SIZE 2
