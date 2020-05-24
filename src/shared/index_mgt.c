@@ -14,8 +14,19 @@
 
 void		clear_circ(t_circ *circ)
 {
+	int		i;
+	int		y;
+
+	i = circ->read_i - 1;
+	y = inci(&i);
+	while (i != EOL[0] && y != EOL[1])
+	{
+		inci(&i);
+		inci(&y);
+	}
+	circ->read_i = inci(&y);
+	circ->write_i = circ->read_i;
 	circ->data = 0;
-	circ->read_i = circ->write_i;
 	circ->to_write = 0;
 }
 
