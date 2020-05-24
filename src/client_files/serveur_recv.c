@@ -63,6 +63,7 @@ void		analyse_transmission(t_envc *e)
 	circ = &(e->fd.circ);
 	if (!e->serv_info)
 		return (save_server_info(e));
+	go_next_char(circ);
 	if (circ->buf[circ->read_i] == ':' ||
 	circ->buf[circ->read_i] == '#' || circ->buf[circ->read_i] == '/')
 	{
@@ -79,7 +80,12 @@ void		analyse_transmission(t_envc *e)
 		free(prefix);
 	}
 	else
+	{
+		printf("mauvaise analyse\n");
+		write(1, circ->buf + circ->read_i, 20);
 		clear_circ(circ);
+	}
+		
 }
 
 void		serveur_recv(t_envc *e, int sock)
