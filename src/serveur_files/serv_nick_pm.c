@@ -50,6 +50,7 @@ void		serv_nick(t_env *e, int cs)
 	{
 		len = ft_strlen(nick);
 		len = min(len, 9);
+		ft_bzero(&e->fds[cs].nick, NICK_SIZE);
 		ft_memcpy(&e->fds[cs].nick, nick, len);
 		send_back_serv_conf(e, cs, "Your nick has been changed to", nick);
 		printf("%s sock %d has changed his nick to %s\n", PLUS_LOG, cs, nick);
