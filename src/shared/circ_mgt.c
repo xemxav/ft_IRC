@@ -35,27 +35,9 @@ int			send_buf(t_circ *circ, int sock)
 	return (send_buf(circ, sock));
 }
 
-int			recv_buf(t_circ *circ, int s)
-{
-	int		r;
-
-	r = recv(s, circ->buf + circ->write_i, CBS - circ->write_i, 0);
-	if (r < 0)
-		return (ERROR);
-	if (r == 0)
-		return (0);
-	printf("Recu %d octet\n", r);
-	circ->write_i += r;
-	circ->to_write = check_eol(circ);
-	if (circ->to_write)
-		return (circ->data);
-	return (recv_buf(circ, s));
-}
-
 int			print_buf(t_circ *circ)
 {
 	int		to_print;
-	int		printed;
 	char	*s;
 
 	if (circ->write_i == circ->read_i)
@@ -69,30 +51,23 @@ int			print_buf(t_circ *circ)
 		to_print = CBS - circ->read_i;
 	if ((s = ft_strsub(circ->buf, circ->read_i, to_print)) == NULL)
 		return (ERROR);
-	printed = printf("%s", s);
+	ft_putstr(s);
 	free(s);
-	circ->read_i += printed;
+	circ->read_i += to_print;
 	if (circ->read_i == CBS)
 		circ->read_i = 0;
-	circ->data -= printed;
+	circ->data -= to_print;
 	return (print_buf(circ));
 }
 
 size_t		copy_to_buf(t_circ *circ, char *line)
 {
-	ssize_t	buf_len;
-	ssize_t	len;
-	int		rec;
-
-	if (*line == '\0')
-		return (add_eol(circ) - EOL_SIZE);
-	buf_len = CBS - circ->write_i;
-	len = ft_strlen(line);
-	rec = min(len, buf_len);
-	ft_strncpy(circ->buf + circ->write_i, line, rec);
-	circ->data += rec;
-	circ->write_i += rec;
-	if (circ->write_i == CBS)
-		circ->write_i = 0;
-	return (copy_to_buf(circ, line + rec));
+	while (*line)
+	{
+		circ->buf[circ->write_i] = *line;
+		inci(&circ->write_i);
+		circ->data++;
+		line++;
+	}
+	return (add_eol(circ - EOL_SIZE));
 }

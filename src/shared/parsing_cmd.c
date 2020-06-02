@@ -15,6 +15,7 @@
 void		go_next_char(t_circ *circ)
 {
 	int		in_space;
+	int		next_i;
 
 	in_space = 0;
 	if (circ->buf[circ->read_i] != ' ')
@@ -28,8 +29,10 @@ void		go_next_char(t_circ *circ)
 		inci(&circ->read_i);
 		circ->data--;
 	}
-	if (circ->buf[circ->read_i] == EOL[0] &&
-	circ->buf[circ->read_i + 1] == EOL[1])
+	next_i = circ->read_i;
+	inci(&next_i);
+	if ((circ->buf[circ->read_i] == EOL[0] && circ->buf[next_i] == EOL[1]) ||
+	circ->read_i == circ->write_i)
 	{
 		circ->data = 0;
 		circ->read_i = circ->write_i;
@@ -60,6 +63,8 @@ char		*return_cmd(t_circ *circ)
 
 	len = 0;
 	p = circ->read_i;
+	if (circ->to_write == FALSE)
+		return (NULL);
 	while (dont_stop(circ->buf, p))
 	{
 		len++;

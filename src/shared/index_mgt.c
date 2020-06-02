@@ -17,9 +17,10 @@ void		clear_circ(t_circ *circ)
 	int		i;
 	int		y;
 
-	i = circ->read_i - 1;
-	y = inci(&i);
-	while (i != EOL[0] && y != EOL[1])
+	i = circ->read_i;
+	y = circ->read_i;
+	y = inci(&y);
+	while (circ->buf[i] != EOL[0] && circ->buf[y] != EOL[1])
 	{
 		inci(&i);
 		inci(&y);

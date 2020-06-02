@@ -27,5 +27,8 @@ void	clean_fd(t_fd *fd)
 		fd->chan_bag[i] = NULL;
 		i++;
 	}
-	clear_circ(&fd->circ);
+	fd->circ.to_write = 0;
+	fd->circ.read_i = 0;
+	fd->circ.write_i = 0;
+	fd->circ.data = 0;
 }

@@ -87,7 +87,6 @@ int						dont_stop(char *buf, int i);
 */
 int						print_buf(t_circ *circ);
 int						send_buf(t_circ *circ, int sock);
-int						recv_buf(t_circ *circ, int s);
 size_t					copy_to_buf(t_circ *circ, char *line);
 /*
 **						shared/clean_fd.c

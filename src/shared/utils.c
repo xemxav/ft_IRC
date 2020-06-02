@@ -41,21 +41,13 @@ size_t		add_eol(t_circ *circ)
 int			check_eol(t_circ *circ)
 {
 	int		i;
-	int		check;
-	int		match;
 
-	i = EOL_SIZE;
-	match = 0;
-	while (i > 0)
-	{
-		check = circ->write_i - i;
-		if (check < 0)
-			check = CBS - check;
-		if (circ->buf[check] == EOL[EOL_SIZE - i])
-			match++;
-		i--;
-	}
-	if (match == 2)
+	i = circ->write_i;
+	if (i > 1 && circ->buf[i - 1] == EOL[1] && circ->buf[i - 2] == EOL[0])
+		return (TRUE);
+	if (i == 1 && circ->buf[0] == EOL[1] && circ->buf[CBS - 1] == EOL[0])
+		return (TRUE);
+	if (i == 0 && circ->buf[CBS - 1] == EOL[1] && circ->buf[CBS - 2] == EOL[0])
 		return (TRUE);
 	return (FALSE);
 }

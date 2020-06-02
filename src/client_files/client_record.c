@@ -49,7 +49,10 @@ void		client_record(t_envc *e)
 			return ;
 		}
 		if (copy_to_buf(circ, line) != ft_strlen(line))
+		{
+			free(line);
 			client_error(e, "Error while recording user input");
+		}
 		if (line)
 			free(line);
 		return ;

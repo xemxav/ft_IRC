@@ -33,7 +33,11 @@ void		channel_message(t_envc *e, char *channel)
 	nick = NULL;
 	if ((nick = return_cmd(circ)) == NULL)
 		client_error(e, "Could not get nick (channel message)");
-	printf("\033[1;35m%s %s->\033[0m", channel, nick);
+	ft_putstr("\033[1;35m");
+	ft_putstr(channel);
+	ft_putstr(" ");
+	ft_putstr(nick);
+	ft_putstr("->\033[0m");
 	print_buf(circ);
 	free(channel);
 	free(nick);
@@ -49,7 +53,9 @@ void		private_message(t_envc *e, char *private)
 	nick = NULL;
 	if ((nick = return_cmd(circ)) == NULL)
 		client_error(e, "Could not get command nick (private message)");
-	printf("\033[1;36m%s (private) ->\033[0m", nick);
+	ft_putstr("\033[1;36m");
+	ft_putstr(nick);
+	ft_putstr(" (private) ->\033[0m");
 	print_buf(circ);
 	free(private);
 	free(nick);
@@ -61,9 +67,9 @@ void		analyse_transmission(t_envc *e)
 	char	*prefix;
 
 	circ = &(e->fd.circ);
+	go_next_char(circ);
 	if (!e->serv_info)
 		return (save_server_info(e));
-	go_next_char(circ);
 	if (circ->buf[circ->read_i] == ':' ||
 	circ->buf[circ->read_i] == '#' || circ->buf[circ->read_i] == '/')
 	{
@@ -71,7 +77,7 @@ void		analyse_transmission(t_envc *e)
 			client_error(e, "Coudld not get prefix");
 		if (ft_strncmp(e->serv_name, prefix, ft_strlen(e->serv_name)) == 0)
 			return (server_message(e, prefix));
-		else if (ft_strcmp("/write", prefix) == 0)
+		else if (ft_strcmp(WRITE, prefix) == 0)
 			return (change_chan_name(e, prefix));
 		else if (ft_strcmp(PRIVATE, prefix) == 0)
 			return (private_message(e, prefix));
@@ -79,13 +85,12 @@ void		analyse_transmission(t_envc *e)
 			return (channel_message(e, prefix));
 		free(prefix);
 	}
-	else
+	else //todo : a supprimer
 	{
-		printf("mauvaise analyse\n");
-		write(1, circ->buf + circ->read_i, 20);
+		ft_putstr("mauvaise analyse\n");
+		print_buf(circ);
 		clear_circ(circ);
 	}
-		
 }
 
 void		serveur_recv(t_envc *e, int sock)

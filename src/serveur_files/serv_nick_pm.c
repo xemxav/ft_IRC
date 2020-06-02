@@ -20,7 +20,7 @@ static int	check_nick(t_env *e, int cs, char *nick)
 	i = 0;
 	while (i < e->max_fd)
 	{
-		if (strcmp(e->fds[i].nick, nick) == 0)
+		if (strncmp(e->fds[i].nick, nick, NICK_SIZE) == 0)
 		{
 			send_back_serv_err(e, cs,
 						"Your nick is already in use, "
@@ -73,7 +73,10 @@ static int	find_target_nick(t_env *e, int cs)
 	{
 		if (e->fds[i].type == FD_CLIENT && i != cs &&
 		ft_strncmp(e->fds[i].nick, t_nick, NICK_SIZE) == 0)
+		{
+			free(t_nick);
 			return (i);
+		}
 		i++;
 	}
 	send_back_serv_err(e, cs, "Could not find user", t_nick);

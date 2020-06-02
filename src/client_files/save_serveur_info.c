@@ -29,6 +29,8 @@ void		save_server_info(t_envc *e)
 	char	*sock;
 
 	circ = &(e->fd.circ);
+	if (circ->buf[circ->read_i] != ':')
+		client_error(e, "Could not get serveur information");
 	if ((e->serv_name = return_cmd(circ)) == NULL)
 		client_error(e, "Could not get Server Name");
 	if ((sock = return_cmd(circ)) == NULL)
