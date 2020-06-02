@@ -3,7 +3,7 @@
 cmake-build-debug/
 
 #Object file
-./obj/*/*
+/obj/
 
 #binary
 a.out
@@ -17,3 +17,4 @@ client
 /libft/
 #serveur given by subject
 /bircd/
+/correc.html
