@@ -69,5 +69,5 @@ size_t		copy_to_buf(t_circ *circ, char *line)
 		circ->data++;
 		line++;
 	}
-	return (add_eol(circ - EOL_SIZE));
+	return (add_eol(circ) - EOL_SIZE);
 }

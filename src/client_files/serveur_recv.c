@@ -55,7 +55,7 @@ void		private_message(t_envc *e, char *private)
 		client_error(e, "Could not get command nick (private message)");
 	ft_putstr("\033[1;36m");
 	ft_putstr(nick);
-	ft_putstr(" (private) ->\033[0m");
+	ft_putstr(" (private)->\033[0m");
 	print_buf(circ);
 	free(private);
 	free(nick);

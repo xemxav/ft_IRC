@@ -34,10 +34,10 @@ void			serv_join(t_env *e, int cs)
 	char		*channel;
 	int			c;
 
-	if ((c = find_chan_index(e, cs)) >= MAX_CHAN - 1)
+	if ((c = find_chan_index(e, cs)) >= MAX_CHAN)
 	{
 		return (send_back_serv_err(e, cs, "You cannot join more than 5"
-		" channels, you must '/leave [channel]' one first", NULL));
+		" channels, you must '/leave <channel>' one first", NULL));
 	}
 	if ((channel = check_channel(e, cs)) == NULL)
 		return ;
