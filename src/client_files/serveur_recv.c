@@ -85,12 +85,6 @@ void		analyse_transmission(t_envc *e)
 			return (channel_message(e, prefix));
 		free(prefix);
 	}
-	else //todo : a supprimer
-	{
-		ft_putstr("mauvaise analyse\n");
-		print_buf(circ);
-		clear_circ(circ);
-	}
 }
 
 void		serveur_recv(t_envc *e, int sock)

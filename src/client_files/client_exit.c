@@ -32,7 +32,7 @@ void		clean_exit(t_envc *e)
 {
 	clean_client(e);
 	clean_input();
-	exit(TRUE);
+	exit(0);
 }
 
 void		client_error(t_envc *e, char *error)

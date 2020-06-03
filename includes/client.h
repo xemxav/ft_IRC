@@ -16,6 +16,7 @@
 # define USER "USER="
 # define U_LEN 5
 # define EXIT "/exit"
+# define STOP -1
 
 typedef struct			s_envc
 {
@@ -44,11 +45,10 @@ void					run_session(t_envc *e);
 */
 void					client_error(t_envc *e, char *error);
 void					clean_exit(t_envc *e);
-void					clean(t_envc *e);
 /*
 **						client_files/run_client.c
 */
-int						run_client(t_envc *e);
+void					run_client(t_envc *e);
 /*
 **						client_files/create_client.c
 */
@@ -63,7 +63,7 @@ void					client_record(t_envc *e);
 /*
 **						client_files/serveur_send.c
 */
-void					serveur_send(t_envc *e, int sock);
+int						serveur_send(t_envc *e, int sock);
 /*
 **						client_files/serveur_recv.c
 */

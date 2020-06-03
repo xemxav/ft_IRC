@@ -13,7 +13,7 @@
 #include "../../includes/ft_irc.h"
 #include "../../includes/serveur.h"
 
-void		client_write(t_env *e, int cs)
+int			client_write(t_env *e, int cs)
 {
 	t_circ	*circ;
 	int		data;
@@ -25,4 +25,5 @@ void		client_write(t_env *e, int cs)
 	else
 		printf("%s N'avait rien a envoye a sock"
 		" #%d mais rentrer dans client write\n", ERR_LOG, cs);
+	return (TRUE);
 }

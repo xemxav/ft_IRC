@@ -61,7 +61,7 @@ typedef struct			s_fd
 {
 	int					type;
 	void				(*fct_read)();
-	void				(*fct_write)();
+	int					(*fct_write)();
 	struct s_circ		circ;
 	char				nick[9];
 	struct s_channel	*write_chan;

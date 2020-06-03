@@ -13,9 +13,9 @@
 #include "../../includes/ft_irc.h"
 #include "../../includes/client.h"
 
-void		reconnect(t_envc *e)
+int				reconnect(t_envc *e)
 {
-	char	*port;
+	char		*port;
 
 	free(return_cmd(&e->circ));
 	if ((e->host = return_cmd(&e->circ)) == NULL)
@@ -37,13 +37,12 @@ void		reconnect(t_envc *e)
 		free(e->serv_name);
 	if (e->channel)
 		free(e->channel);
-	clean_screen();
-	create_client(e);
+	return (STOP);
 }
 
-void		exit_cmd(t_envc *e)
+void			exit_cmd(t_envc *e)
 {
-	t_circ	*circ;
+	t_circ		*circ;
 
 	circ = &e->circ;
 	clear_circ(circ);
@@ -53,7 +52,7 @@ void		exit_cmd(t_envc *e)
 	clean_exit(e);
 }
 
-void		check_cmd(t_envc *e)
+static int		check_cmd(t_envc *e)
 {
 	t_circ	*circ;
 
@@ -63,15 +62,18 @@ void		check_cmd(t_envc *e)
 		return (reconnect(e));
 	if (cmp_cmd(circ, EXIT))
 		exit_cmd(e);
+	return (0);
 }
 
-void		serveur_send(t_envc *e, int sock)
+int				serveur_send(t_envc *e, int sock)
 {
-	t_circ	*circ;
+	t_circ		*circ;
 
 	circ = &e->circ;
 	if (circ->buf[circ->read_i] == '/')
-		check_cmd(e);
+		if (check_cmd(e) == STOP)
+			return (STOP);
 	if (send_buf(circ, sock) == ERROR)
 		client_error(e, "Error while send buf");
+	return (TRUE);
 }

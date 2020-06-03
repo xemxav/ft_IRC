@@ -69,7 +69,7 @@ void					copy_buf(t_circ *dst, t_circ *src);
 /*
 **						serveur_files/client_write.c
 */
-void					client_write(t_env *e, int cs);
+int						client_write(t_env *e, int cs);
 /*
 **						serveur_files/looping.c
 */
@@ -96,7 +96,7 @@ void					serv_sel_write(t_env *e, int cs);
 **						shared/channel_utils.c
 */
 int						find_chan_index(t_env *e, int cs);
-int 					find_channel_by_name(t_env *e, int cs, char *channel);
+int						find_channel_by_name(t_env *e, int cs, char *channel);
 /*
 **						shared/serv_responses.c
 */

@@ -46,9 +46,12 @@ void		host_from_input(t_envc *e)
 
 void		run_session(t_envc *e)
 {
-	clean_screen();
-	create_client(e);
-	run_client(e);
+	while (TRUE)
+	{
+		clean_screen();
+		create_client(e);
+		run_client(e);
+	}
 }
 
 int			main(int ac, char **av, char **env)
