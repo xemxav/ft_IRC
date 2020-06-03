@@ -13,11 +13,34 @@
 #include "../../includes/ft_irc.h"
 #include "../../includes/client.h"
 
+static void		clean_env(t_envc *e)
+{
+	clean_fd(&e->fd);
+	if (e->fd.circ.buf)
+	{
+		free(e->fd.circ.buf);
+		e->fd.circ.buf = NULL;
+	}
+	if (e->serv_name != NULL)
+	{
+		free(e->serv_name);
+		e->serv_name = NULL;
+	}
+	if (e->channel != NULL)
+	{
+		free(e->channel);
+		e->channel = NULL;
+	}
+	e->serv_info = 0;
+}
+
 int				reconnect(t_envc *e)
 {
 	char		*port;
 
 	free(return_cmd(&e->circ));
+	free(e->host);
+	e->host = NULL;
 	if ((e->host = return_cmd(&e->circ)) == NULL)
 		client_error(e, "Error while getting hostname");
 	if ((port = return_cmd(&e->circ)) == NULL)
@@ -30,13 +53,7 @@ int				reconnect(t_envc *e)
 	if (send_buf(&e->circ, e->sock) == ERROR)
 		client_error(e, "Error while send buf");
 	close(e->sock);
-	clean_fd(&e->fd);
-	free(e->fd.circ.buf);
-	e->serv_info = 0;
-	if (e->serv_name)
-		free(e->serv_name);
-	if (e->channel)
-		free(e->channel);
+	clean_env(e);
 	return (STOP);
 }
 

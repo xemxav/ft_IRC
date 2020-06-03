@@ -30,9 +30,10 @@ static int	get_nick(t_envc *e, char **env)
 void		init_envc(t_envc *e, char **env)
 {
 	ft_bzero(e, sizeof(t_envc));
-	e->circ.buf = (char*)malloc(sizeof(CBS));
+	e->circ.buf = (char*)malloc(CBS);
 	if (e->circ.buf == NULL)
 		client_error(e, "Could not create internal buffer");
+	ft_bzero(e->circ.buf, CBS);
 	if (!get_nick(e, env))
 	{
 		ft_memcpy(e->nick, "Guest", 5);

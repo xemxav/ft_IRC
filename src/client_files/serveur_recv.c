@@ -68,7 +68,7 @@ void		analyse_transmission(t_envc *e)
 
 	circ = &(e->fd.circ);
 	go_next_char(circ);
-	if (!e->serv_info)
+	if (e->serv_info == 0)
 		return (save_server_info(e));
 	if (circ->buf[circ->read_i] == ':' ||
 	circ->buf[circ->read_i] == '#' || circ->buf[circ->read_i] == '/')

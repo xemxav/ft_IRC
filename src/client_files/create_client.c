@@ -27,6 +27,7 @@ static void				create_address_host(t_envc *e,
 	if (host_info == NULL)
 		client_error(e, "Could not lookup hostname");
 	address = (struct in_addr *)(host_info->h_addr);
+	clean_input();
 	printf("%s Has found host %s corresponding of %s at adress %s\n",
 			PLUS_LOG, host_info->h_name, e->host, inet_ntoa(*address));
 	target_addr->sin_addr = *((struct in_addr *)host_info->h_addr);
