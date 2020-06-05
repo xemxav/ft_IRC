@@ -40,22 +40,18 @@ void		client_record(t_envc *e)
 	circ = &e->circ;
 	line = NULL;
 	ret = get_next_line(0, &line);
-	if (ret != -1)
+	if (ret == -1)
+		client_error(e, "Error while recording user input");
+	if (line != NULL)
 	{
-		if (ft_strlen(line) == 0)
-		{
-			if (line)
-				free(line);
-			return ;
+		if (ft_strlen(line) == 0) {
+			free(line);
+			return;
 		}
-		if (copy_to_buf(circ, line) != ft_strlen(line))
-		{
+		if (copy_to_buf(circ, line) != ft_strlen(line)) {
 			free(line);
 			client_error(e, "Error while recording user input");
 		}
-		if (line)
-			free(line);
-		return ;
+		free(line);
 	}
-	client_error(e, "Error while recording user input");
 }
