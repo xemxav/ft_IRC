@@ -19,7 +19,10 @@ char			*check_channel(t_env *e, int cs)
 
 	channel = NULL;
 	if ((channel = return_cmd(&e->fds[cs].circ)) == NULL)
-		serveur_error(e, "Could not find channel name");
+	{
+		send_back_serv_err(e, cs, "Please enter a channel name", NULL);
+		return (NULL);
+	}
 	if (channel[0] != '#')
 	{
 		free(channel);
@@ -34,13 +37,13 @@ void			serv_join(t_env *e, int cs)
 	char		*channel;
 	int			c;
 
+	if ((channel = check_channel(e, cs)) == NULL)
+		return ;
 	if ((c = find_chan_index(e, cs)) >= MAX_CHAN)
 	{
 		return (send_back_serv_err(e, cs, "You cannot join more than 5"
 		" channels, you must '/leave <channel>' one first", NULL));
 	}
-	if ((channel = check_channel(e, cs)) == NULL)
-		return ;
 	if (find_channel_by_name(e, cs, channel) != ERROR)
 	{
 		return (send_back_serv_err(e, cs, "You cannot join a channel"

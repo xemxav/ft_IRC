@@ -37,11 +37,11 @@ void		serv_nick(t_env *e, int cs)
 	char	*nick;
 	ssize_t	len;
 
-	if ((nick = return_cmd(&e->fds[cs].circ)) == NULL)
-		serveur_error(e, "Could not find nick");
-	if (nick[0] == '\0')
+	nick = return_cmd(&e->fds[cs].circ);
+	if (nick == NULL || nick[0] == '\0')
 	{
-		free(nick);
+		if (nick)
+			free(nick);
 		send_back_serv_info(e, cs,
 		"Please enter a nick, your actual nick is", e->fds[cs].nick);
 		return ;

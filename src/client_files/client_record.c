@@ -44,11 +44,13 @@ void		client_record(t_envc *e)
 		client_error(e, "Error while recording user input");
 	if (line != NULL)
 	{
-		if (ft_strlen(line) == 0) {
+		if (ft_strlen(line) == 0)
+		{
 			free(line);
-			return;
+			return ;
 		}
-		if (copy_to_buf(circ, line) != ft_strlen(line)) {
+		if (copy_to_buf(circ, line) != ft_strlen(line))
+		{
 			free(line);
 			client_error(e, "Error while recording user input");
 		}
