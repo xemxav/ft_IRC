@@ -15,7 +15,7 @@ PATH_CLIENT = client_files/
 PATH_SHARED = shared/
 
 HEADER = $(PATH_INC)$(NAME).h
-HEADER_S = $(PATH_INC)$(SERVEUR).hf
+HEADER_S = $(PATH_INC)$(SERVEUR).h
 HEADER_C = $(PATH_INC)$(CLIENT).h
 
 #******************************************************************************#
