@@ -32,20 +32,31 @@ static int	check_nick(t_env *e, int cs, char *nick)
 	return (TRUE);
 }
 
+static int	manage_nick(t_env *e, int cs, char *nick)
+{
+	if (nick == NULL || nick[0] == '\0')
+	{
+		if (nick)
+			free(nick);
+		if (e->fds[cs].nick[0] != '\0')
+			send_back_serv_info(e, cs,
+			"Please enter a nick, your actual nick is", e->fds[cs].nick);
+		else
+			send_back_serv_info(e, cs,
+			"Please enter a nick, your nick is not set yet", NULL);
+		return (FALSE);
+	}
+	return (TRUE);
+}
+
 void		serv_nick(t_env *e, int cs)
 {
 	char	*nick;
 	ssize_t	len;
 
 	nick = return_cmd(&e->fds[cs].circ);
-	if (nick == NULL || nick[0] == '\0')
-	{
-		if (nick)
-			free(nick);
-		send_back_serv_info(e, cs,
-		"Please enter a nick, your actual nick is", e->fds[cs].nick);
+	if (manage_nick(e, cs, nick) == FALSE)
 		return ;
-	}
 	if (check_nick(e, cs, nick))
 	{
 		len = ft_strlen(nick);
