@@ -38,7 +38,7 @@ The available commands are :
 ```/join <channel name>``` : joins the channel or create it
 ```/write <channel name>``` : in order to write on a joined channel you must select it first as your ```/write``` channel.
 ```/join <channel name>``` : leaves a channel. /!\ you cannot leave your write channel
-```/who```: lists the user on your ```/write``` channel
-```/list```: lists all the channels on the server. By default, the server is launch with the channel ```Public_Chatroom``` and a new client connects to it.
+```/who``` : lists the user on your ```/write``` channel
+```/list``` : lists all the channels on the server. By default, the server is launch with the channel ```Public_Chatroom``` and a new client connects to it.
 ```/msg <nick> <message>``` : sends a message to a specified user.
-```/connect [<adress> <port>]``` :connects to a different server.
+```/connect [<adress> <port>]``` : connects to a different server.

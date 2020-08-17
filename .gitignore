@@ -10,9 +10,6 @@ a.out
 serveur
 client
 
-#subject and docs
-*.pdf
-
 #local library
 /libft/
 #serveur given by subject
