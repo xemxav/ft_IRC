@@ -6,7 +6,7 @@
 /*   By: xem <xem@student.42lyon.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/20 15:40:36 by xem               #+#    #+#             */
-/*   Updated: 2020/05/20 15:49:46 by xem              ###   ########lyon.fr   */
+/*   Updated: 2020/08/17 20:56:30 by xem              ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 # include <sys/select.h>
 # include <sys/time.h>
 # include <netdb.h>
-# include <sys/time.h>
 # include <sys/resource.h>
 
 # define EOL "\r\n"
